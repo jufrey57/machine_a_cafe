@@ -17,7 +17,7 @@ public class MachineACafe {
     public static void main(String[] args) {
         ManagerMachine machine = new ManagerMachine();
         
-        machine.getIngredients();
+        System.out.println(machine.getListeIngredients());
     }
     
 }

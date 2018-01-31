@@ -12,8 +12,9 @@ import java.util.Scanner;
  * @author julien
  */
 public class ManagerMachine {
+	private static int NB_BOISSONS_MAX = 3;
     private HashMap<String,Integer> ingredients = new HashMap<String,Integer>();
-    private Boisson boissons[] = new Boisson[3];
+    private Boisson boissons[] = new Boisson[NB_BOISSONS_MAX];
     
     public ManagerMachine()
     {
@@ -23,20 +24,53 @@ public class ManagerMachine {
         ingredients.put("sucre", 200);
     }
     
-    /*
+    /**
+     * ajoutBoisson() Ajoute une boisson dans la machine (max 3 boissons)
+     * @param boisson
+     */
     public void ajoutBoisson (Boisson boisson)
     {
-        
+    		boolean disponible = false;
+    		int i = 0;
+    		
+    		while(i < NB_BOISSONS_MAX && disponible) 
+    		{
+    			if(!(boissons[i] instanceof Boisson)) 
+    			{
+    				boissons[i] = boisson;
+    				disponible = true;
+    			}
+    			i++;
+    		}
+    		
+    		if(!disponible) 
+    		{
+    			System.out.println("Impossible d'ajouter une boisson: Déjà trop de boisson");
+    		}
     }
-    */
+    
+    /**
+     * afficheBoissons() Affiche les boissons présentent dans la machine
+     */
+    public void afficheBoissons() 
+    {
+    		System.out.println("Liste des boissons:");
+    		for(Boisson boisson : boissons) 
+    		{
+    			if(boisson != null)
+    			{
+    				System.out.println(boisson.toString());
+    			}
+    		}
+    }
     
     /**
      * getQuantiteIngredient() 
      * @param nom
      * @return la quantité de cet ingrédient
      */
-    public int getQuantiteIngredient(String nom){
-        
+    public int getQuantiteIngredient(String nom)
+    {
         return ingredients.get(nom);
     }
     
@@ -75,22 +109,21 @@ public class ManagerMachine {
         }
     }
     
-    /** getIngredients()
+    /** getListeIngredients()
      *  Affiche tous les ingrédients dans la console. Puis demande d'appuyer sur une touche pour continuer
+     *  @return Renvoie la liste des ingrédients
      */
-    public void getIngredients()
+    public String getListeIngredients()
     {
         
-        Scanner sc = new Scanner(System.in);
+        String listeIngredients = "";
         
         for ( String ingredient : ingredients.keySet() ) 
         {
-            System.out.println(ingredient + ": " + ingredients.get(ingredient));
+            listeIngredients += ingredient + ": " + ingredients.get(ingredient) + "\n";
         }
         
-        System.out.println("");
-        
-        System.out.println("Press any key :");
-        String anyKey = sc.nextLine();
+
+		return listeIngredients;
     }
 }
