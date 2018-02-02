@@ -33,9 +33,9 @@ public class ManagerMachine {
     		boolean disponible = false;
     		int i = 0;
     		
-    		while(i < NB_BOISSONS_MAX && disponible) 
+    		while(i < NB_BOISSONS_MAX && !disponible) 
     		{
-    			if(!(boissons[i] instanceof Boisson)) 
+    			if(boissons[i] == null) 
     			{
     				boissons[i] = boisson;
     				disponible = true;
@@ -51,17 +51,21 @@ public class ManagerMachine {
     
     /**
      * afficheBoissons() Affiche les boissons présentent dans la machine
+     * @return retourne un String avec la liste des boissons dans lama chine
      */
-    public void afficheBoissons() 
+    public String getListeBoissons() 
     {
-    		System.out.println("Liste des boissons:");
+    		String listeBoissons = "";
+    		listeBoissons += "Liste des boissons:";
     		for(Boisson boisson : boissons) 
     		{
     			if(boisson != null)
     			{
-    				System.out.println(boisson.toString());
+    				listeBoissons += boisson.toString() + "\n";
     			}
     		}
+    		
+    		return listeBoissons;
     }
     
     /**
@@ -71,7 +75,14 @@ public class ManagerMachine {
      */
     public int getQuantiteIngredient(String nom)
     {
-        return ingredients.get(nom);
+    		if(ingredients.containsKey(nom))
+    		{
+    			return ingredients.get(nom);
+    		}
+    		else
+    		{
+    			return -1;
+    		}
     }
     
     /**
