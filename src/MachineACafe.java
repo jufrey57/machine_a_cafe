@@ -20,11 +20,10 @@ public class MachineACafe {
         machine.ajoutBoisson("cafe latte", 100);
         machine.ajoutBoisson("cafe creme", 100);
         machine.ajoutBoisson("chocolat", 100);
-        //System.out.println(machine.getQuantiteIngredient("coke"));
+        System.out.println(machine.getListeIngredients());
+      
         
-        machine.supprimerBoisson(1);
-        
-        System.out.println(machine.getListeBoissons());
+        //System.out.println(machine.getListeBoissons());
     }
     
 }
