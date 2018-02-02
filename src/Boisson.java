@@ -10,10 +10,10 @@ import java.util.HashMap;
 public class Boisson {
 	
 	/** Nom de cette Boisson */
-	public String nom;
+	private String nom;
 	
 	/** Prix de cette Boisson */
-	public int prix;
+	private int prix;
 	
 	/** Ingrédients utilisés dans cette Boisson */
 	private HashMap<String, Integer> listeIngredient;
@@ -63,5 +63,53 @@ public class Boisson {
 			desc += ingredient.getKey() + " (" + ingredient.getValue() + ") ";
 		}
 		return desc;
+	}
+	
+	/**
+	 * Getter for nom
+	 * @return String
+	 */
+	public String getNom() {
+		return nom;
+	}
+
+	/**
+	 * Setter for nom
+	 * @param nom String
+	 */
+	public void setNom(String nom) {
+		this.nom = nom;
+	}
+
+	/**
+	 * Getter for prix
+	 * @return int
+	 */
+	public int getPrix() {
+		return prix;
+	}
+
+	/**
+	 * Setter for prix
+	 * @param prix int
+	 */
+	public void setPrix(int prix) {
+		this.prix = prix;
+	}
+
+	/**
+	 * Getter for listeIngredient
+	 * @return HaskMap<String, Integer>
+	 */
+	public HashMap<String, Integer> getListeIngredient() {
+		return listeIngredient;
+	}
+
+	/**
+	 * Setter for listeIngredient
+	 * @param listeIngredient Hashmap<String, Integer>
+	 */
+	public void setListeIngredient(HashMap<String, Integer> listeIngredient) {
+		this.listeIngredient = listeIngredient;
 	}
 }
