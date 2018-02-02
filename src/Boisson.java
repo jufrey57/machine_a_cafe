@@ -27,6 +27,7 @@ public class Boisson {
 	{
 		this.nom = nom;
 		this.prix = prix;
+		listeIngredient = new HashMap<String, Integer>();
 	}
 	
 	/**
@@ -37,7 +38,7 @@ public class Boisson {
 	 */
 	public int modifierIngredient(String ingredient, Integer nombre)
 	{
-		return this.listeIngredient.put(ingredient, nombre);
+		return this.listeIngredient.put(ingredient, nombre);	
 	}
 	
 	/**
@@ -57,11 +58,12 @@ public class Boisson {
 	@Override
 	public String toString()
 	{
-		String desc = nom + " ( ";
+		String desc = this.nom + " ( ";
 		for(HashMap.Entry ingredient : this.listeIngredient.entrySet())
 		{
 			desc += ingredient.getKey() + " (" + ingredient.getValue() + ") ";
 		}
+		desc += " ) ";
 		return desc;
 	}
 }
