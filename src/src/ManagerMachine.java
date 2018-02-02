@@ -7,14 +7,12 @@ package src;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Scanner;
 
 /**
  *
  * @author julien
  */
 public class ManagerMachine {
-	private static int NB_BOISSONS_MAX = 3;
     private HashMap<String,Integer> ingredients = new HashMap<String,Integer>();
     private ArrayList<Boisson> boissons = new ArrayList<Boisson>();
     
@@ -130,14 +128,51 @@ public class ManagerMachine {
     public String getListeIngredients()
     {
         
-        String listeIngredients = "n°: \t Ingrédient \t Quantité \n";
+        String listeIngredients = "Ingrédient \tQuantité \n";
         
         for ( String ingredient : ingredients.keySet() ) 
         {
-            listeIngredients += ingredient + ": " + ingredients.get(ingredient) + "\n";
+            listeIngredients += ingredient + "\t\t" + ingredients.get(ingredient) + "\n";
         }
         
 
 		return listeIngredients;
+    }
+    
+    /**
+     * ajouterIngredient() ajoute un ingredient à la machine (on parle de la quantité)
+     * @param ingredient
+     * @param quantite
+     * @return
+     */
+    public boolean ajouterIngredient(String ingredient, int quantite)
+    {
+    		boolean reponse = false;
+    		
+    		if(this.verifierQuantiteIngredient(ingredient, quantite))
+		{
+			quantite = this.getQuantiteIngredient(ingredient) + quantite;
+			this.ingredients.put(ingredient, quantite);
+			reponse = true;
+		}
+    	
+    		return reponse;
+    }
+    
+    /**
+     * verifierQuantiteIngredient() Vérifie que la quantité ne dépasse pas 200
+     * @param ingredient
+     * @param quantite
+     * @return
+     */
+    public boolean verifierQuantiteIngredient(String ingredient, int quantite)
+    {
+    		boolean reponse = false;
+    		if((this.getQuantiteIngredient(ingredient) + quantite) > 200)
+    		{
+    			reponse = true;
+    		}
+    		
+    		return reponse;
     }
 }
