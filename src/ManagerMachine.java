@@ -34,6 +34,11 @@ public class ManagerMachine {
     {
     		Boisson boisson = null;
     		
+    		/*for()
+    		{
+    			
+    		}*/
+    		
     		if(boissons.size() < 3)
     		{
     			boisson = new Boisson(nom, prix);
@@ -59,7 +64,7 @@ public class ManagerMachine {
     		{
     			if(boisson != null)
     			{
-    				listeBoissons += i + ": " + boisson.getNom() + "," + boisson.getPrix() + "\n";
+    				listeBoissons += i + ": " + boisson.getNom() + ", " + boisson.getPrix() + "\n";
     				i++;
     			}
     		}
@@ -127,6 +132,8 @@ public class ManagerMachine {
     {
         
         String listeIngredients = "";
+        
+        listeIngredients +=  "n°: \t Ingrédients\t Prix\n";
         
         for ( String ingredient : ingredients.keySet() ) 
         {

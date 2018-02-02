@@ -17,11 +17,9 @@ public class MachineACafe {
     public static void main(String[] args) {
         ManagerMachine machine = new ManagerMachine();
         
-        Boisson cafeLatte = new Boisson("cafeLatte", 100);
-        
-        machine.ajoutBoisson(cafeLatte);
-        machine.ajoutBoisson(cafeLatte);
-        System.out.println(machine.getQuantiteIngredient("coke"));
+        machine.ajoutBoisson("cafe latte", 100);
+        machine.ajoutBoisson("cafe latte", 100);
+        //System.out.println(machine.getQuantiteIngredient("coke"));
         
         System.out.println(machine.getListeBoissons());
     }
