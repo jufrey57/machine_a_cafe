@@ -17,13 +17,14 @@ public class MachineACafe {
     public static void main(String[] args) {
         ManagerMachine machine = new ManagerMachine();
         
-        machine.ajoutBoisson("cafe latte", 100);
-        machine.ajoutBoisson("cafe creme", 100);
-        machine.ajoutBoisson("chocolat", 100);
-        System.out.println(machine.getListeIngredients());
-      
+        machine.ajoutBoisson("cafe latte", 4);
+        machine.ajoutBoisson("cafe creme", 3);
+        machine.ajoutBoisson("chocolat", 2);
+
+        machine.ajoutIngredientBoisson("chocolat", "chocolat", 20);
+        machine.ajoutIngredientBoisson("chocolat", "sucre", 40);
         
-        //System.out.println(machine.getListeBoissons());
+        System.out.println(machine.getBoisson("chocolat").getListeIngredient());
     }
     
 }
