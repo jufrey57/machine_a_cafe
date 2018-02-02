@@ -51,26 +51,17 @@ public class ManagerMachine {
     }
     
     /**
-     * supprimerBoisson() Suppression de la boisson à l'index indiqué
-     * @param index
-     * @return <Boolean>
+     * Supprimer la boisson passée en paramètre
+     * @param Boisson boisson
      */
-    public boolean supprimerBoisson(int index)
+    public void supprimerBoisson(Boisson boisson)
     {
-    		boolean reponse = false;
-    	
-    		if(!(index < 0 || index > 2))
-    		{
-    			boissons.remove((index - 1));
-    			reponse = true;
-    		}
-    		
-    		return reponse;
+    		boissons.remove(boisson);
     }
     
     /**
-     * getListeBoissons() Affiche les boissons présentent dans la machine
-     * @return retourne un String avec la liste des boissons dans lama chine
+     * Getter pour boissons
+     * @return ArrayList<Boisson> 
      */
     public ArrayList<Boisson> getListeBoissons() 
     {
