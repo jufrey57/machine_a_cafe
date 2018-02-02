@@ -53,18 +53,37 @@ public class ManagerMachine {
     }
     
     /**
+     * supprimerBoisson() Suppression de la boisson à l'index indiqué
+     * @param index
+     * @return <Boolean>
+     */
+    public boolean supprimerBoisson(int index)
+    {
+    		boolean reponse = false;
+    	
+    		if(!(index < 0 || index > 2))
+    		{
+    			boissons.remove((index - 1));
+    			reponse = true;
+    		}
+    		
+    		return reponse;
+    }
+    
+    /**
      * getListeBoissons() Affiche les boissons présentent dans la machine
      * @return retourne un String avec la liste des boissons dans lama chine
      */
     public String getListeBoissons() 
     {
-    		String listeBoissons = "";
-    		int i = 0;
+    		String listeBoissons = "N°:\tPrix \tNom \n";
+    		
+    		int i = 1;
     		for(Boisson boisson : boissons) 
     		{
     			if(boisson != null)
     			{
-    				listeBoissons += i + ": " + boisson.getNom() + ", " + boisson.getPrix() + "\n";
+    				listeBoissons += i + "\t" + boisson.getPrix() + "\t" + boisson.getNom() + "\n";
     				i++;
     			}
     		}
@@ -131,9 +150,7 @@ public class ManagerMachine {
     public String getListeIngredients()
     {
         
-        String listeIngredients = "";
-        
-        listeIngredients +=  "n°: \t Ingrédients\t Prix\n";
+        String listeIngredients = "n°: \t Ingrédient \t Quantité \n";
         
         for ( String ingredient : ingredients.keySet() ) 
         {
