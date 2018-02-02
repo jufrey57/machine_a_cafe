@@ -18,8 +18,11 @@ public class MachineACafe {
         ManagerMachine machine = new ManagerMachine();
         
         machine.ajoutBoisson("cafe latte", 100);
-        machine.ajoutBoisson("cafe latte", 100);
+        machine.ajoutBoisson("cafe creme", 100);
+        machine.ajoutBoisson("chocolat", 100);
         //System.out.println(machine.getQuantiteIngredient("coke"));
+        
+        machine.supprimerBoisson(1);
         
         System.out.println(machine.getListeBoissons());
     }
