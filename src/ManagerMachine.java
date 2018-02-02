@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -14,7 +15,7 @@ import java.util.Scanner;
 public class ManagerMachine {
 	private static int NB_BOISSONS_MAX = 3;
     private HashMap<String,Integer> ingredients = new HashMap<String,Integer>();
-    private Boisson boissons[] = new Boisson[NB_BOISSONS_MAX];
+    private ArrayList<Boisson> boissons = new ArrayList<Boisson>();
     
     public ManagerMachine()
     {
@@ -26,42 +27,40 @@ public class ManagerMachine {
     
     /**
      * ajoutBoisson() Ajoute une boisson dans la machine (max 3 boissons)
-     * @param boisson
+     * @param <String> nom, <int> prix
+     * @return <Boisson> boisson
      */
-    public void ajoutBoisson (Boisson boisson)
+    public Boisson ajoutBoisson (String nom, int prix)
     {
-    		boolean disponible = false;
-    		int i = 0;
+    		Boisson boisson = null;
     		
-    		while(i < NB_BOISSONS_MAX && !disponible) 
+    		if(boissons.size() < 3)
     		{
-    			if(boissons[i] == null) 
-    			{
-    				boissons[i] = boisson;
-    				disponible = true;
-    			}
-    			i++;
+    			boisson = new Boisson(nom, prix);
+    			boissons.add(boisson);
     		}
-    		
-    		if(!disponible) 
+    		else
     		{
     			System.out.println("Impossible d'ajouter une boisson: Déjà trop de boisson");
     		}
+    		
+    		return boisson;
     }
     
     /**
-     * afficheBoissons() Affiche les boissons présentent dans la machine
+     * getListeBoissons() Affiche les boissons présentent dans la machine
      * @return retourne un String avec la liste des boissons dans lama chine
      */
     public String getListeBoissons() 
     {
     		String listeBoissons = "";
-    		listeBoissons += "Liste des boissons:";
+    		int i = 0;
     		for(Boisson boisson : boissons) 
     		{
     			if(boisson != null)
     			{
-    				listeBoissons += boisson.toString() + "\n";
+    				listeBoissons += i + ": " + boisson.getNom() + "," + boisson.getPrix() + "\n";
+    				i++;
     			}
     		}
     		
