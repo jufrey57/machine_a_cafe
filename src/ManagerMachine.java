@@ -74,21 +74,9 @@ public class ManagerMachine {
      * getListeBoissons() Affiche les boissons présentent dans la machine
      * @return retourne un String avec la liste des boissons dans lama chine
      */
-    public String getListeBoissons() 
+    public ArrayList<Boisson> getListeBoissons() 
     {
-    		String listeBoissons = "N°:\tPrix \tNom \n";
-    		
-    		int i = 1;
-    		for(Boisson boisson : boissons) 
-    		{
-    			if(boisson != null)
-    			{
-    				listeBoissons += i + "\t" + boisson.getPrix() + "\t" + boisson.getNom() + "\n";
-    				i++;
-    			}
-    		}
-    		
-    		return listeBoissons;
+    		return boissons;
     }
     
     /**
