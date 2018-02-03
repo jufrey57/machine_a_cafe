@@ -8,13 +8,19 @@ package src;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import exceptions.BoissonDoublonException;
+import exceptions.MaximumBoissonAtteintException;
+import exceptions.PrixInvalideException;
+
 /**
  *
- * @author julien
+ * @author julien, Maxime
  */
 public class ManagerMachine {
     private HashMap<String,Integer> ingredients = new HashMap<String,Integer>();
     private ArrayList<Boisson> boissons = new ArrayList<Boisson>();
+    private final int MAXIMUM_BOISSON = 5;
+    private final int MAXIMUM_INGREDIENT = 200;
     
     public ManagerMachine()
     {
@@ -25,27 +31,46 @@ public class ManagerMachine {
     }
     
     /**
+     * Vérifie que le nom passé en paramètre est bien disponible
+     * @param nom String
+     * @return boolean
+     */
+    public boolean verifierNom(String nom)
+    {
+    		boolean res = true;
+    		for (Boisson boisson : boissons)
+    			if (boisson.getNom() == nom)
+    				res = false;
+    		return res;
+    }
+    
+    /**
      * ajoutBoisson() Ajoute une boisson dans la machine (max 3 boissons)
      * @param <String> nom, <int> prix
      * @return <Boisson> boisson
+     * @throws MaximumBoissonAtteintException 
+     * @throws PrixInvalideException 
+     * @throws BoissonDoublonException
      */
-    public Boisson ajoutBoisson (String nom, int prix)
+    public Boisson ajoutBoisson (String nom, int prix) throws BoissonDoublonException, MaximumBoissonAtteintException, PrixInvalideException
     {
     		Boisson boisson = null;
     		
-    		/*for()
-    		{
-    			
-    		}*/
-    		
-    		if(boissons.size() < 3)
-    		{
-    			boisson = new Boisson(nom, prix);
-    			boissons.add(boisson);
-    		}
-    		else
-    		{
-    			System.out.println("Impossible d'ajouter une boisson: Déjà trop de boisson");
+    		if (boissons.size() > MAXIMUM_BOISSON)
+    			throw new MaximumBoissonAtteintException();
+    		else {
+    			if (prix < 0)
+    				throw new PrixInvalideException();
+    			else {
+    				if (verifierNom(nom))
+    				{
+    					boisson = new Boisson(nom, prix);
+    					boissons.add(boisson);
+    				}
+    				else {
+    					throw new BoissonDoublonException();
+    				}
+    			}
     		}
     		
     		return boisson;
@@ -100,7 +125,7 @@ public class ManagerMachine {
             {
                 if(quantite > 0)
                 {
-                    if((quantite + getQuantiteIngredient(nom)) < 200)
+                    if((quantite + getQuantiteIngredient(nom)) < MAXIMUM_INGREDIENT)
                     {
                         ingredients.put(nom.toLowerCase(), quantite); 
                     }

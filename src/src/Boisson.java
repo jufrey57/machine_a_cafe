@@ -6,7 +6,7 @@ import java.util.HashMap;
 /**
  * Classe qui représente une boisson ainsi que ses ingrédients
  * 
- * @author bleacks (Maxime Dolet)
+ * @author Maxime
  */
 public class Boisson {
 	

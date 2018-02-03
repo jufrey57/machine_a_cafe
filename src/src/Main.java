@@ -1,17 +1,25 @@
 package src;
 
-
+import java.io.IOException;
+/**
+ * 
+ * @author Maxime
+ */
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main
 {
-	
+	/** ArrayList<String> Contient les lignes du menus **/
 	private static ArrayList<String> menus;
 	
+	/** ManagerMachine Contient les  **/
 	private ManagerMachine manager;
 	
 	private Scanner sc;
+	// TODO: Faire un sytème de log
+	// TODO: Utiliser un enum ou un moyen propre de stocker les infos du menu
 	
 	public Main()
 	{
@@ -20,13 +28,13 @@ public class Main
 		sc = new Scanner(System.in);
 
 		// Accueil
-		menus.add("-- Menu prinicpal de la machine à café --"
-				+ "Quelle action souhaitez vous effectuer ?"
-				+ "1) Acheter une boisson"
-				+ "2) Modifier une boisson"
-				+ "3) Supprimer une boisson"
-				+ "4) Ajouter une boisson"
-				+ "5) Vérifier le stock d'ingrédients"
+		menus.add("-- Menu prinicpal de la machine à café --\n"
+				+ "Quelle action souhaitez vous effectuer ?\n"
+				+ "1) Acheter une boisson\n"
+				+ "2) Modifier une boisson\n"
+				+ "3) Supprimer une boisson\n"
+				+ "4) Ajouter une boisson\n"
+				+ "5) Vérifier le stock d'ingrédients\n"
 				+ "6) Ajouter un ingrédient");
 		
 		menus.add("");
@@ -47,7 +55,7 @@ public class Main
 		System.out.println("Veuillez choisir votre boisson :");
 		System.out.println(manager.getListeBoissons());
 		
-		int index = sc.nextInt();
+		int index = lireEntier();
 		// FIXME: Vérifier la validité de l'index
 		Boisson boisson = boissons.get(index);
 		
@@ -61,9 +69,9 @@ public class Main
 		String nom = sc.nextLine();
 		// Donner un prix à la boisson
 		System.out.println("Donner un prix à votre boisson");
-		int prix = sc.nextInt();
+		int prix = lireEntier();
 		
-		Boisson boisson = manager.ajoutBoisson(nom, prix);
+		//Boisson boisson = manager.ajoutBoisson(nom, prix);
 		
 		// Afficher boisson ajoutée
 		if (boisson != null)
@@ -71,7 +79,7 @@ public class Main
 		else
 			System.out.println("Problème lors de l'ajout de la boisson");
 		
-		manager.modifierBoisson(boisson);
+		//manager.modifierBoisson(boisson);
 	}
 	
 	private String effectuerAction(int action)
@@ -87,17 +95,17 @@ public class Main
 			{
 			// Acheter une boisson
 			case 1:
-				manager.acheterBoisson(boisson);
+				//manager.acheterBoisson(boisson);
 				break;
 			
 			// Modifier une boisson	
 			case 2:
-				manager.modifierBoisson(boisson);
+				//manager.modifierBoisson(boisson);
 				break;
 			
 			// Supprimer une boisson
 			case 3:
-				manager.supprimerBoisson(boisson);
+				//manager.supprimerBoisson(boisson);
 				break;
 			
 			// Ajouter une boisson
@@ -128,17 +136,39 @@ public class Main
 		return res;
 	}
 	
+	private int lireEntier()
+	{
+		int res = 0;
+		boolean valid = false;
+		while (!valid)
+		{
+			try {
+				res = sc.nextInt();
+				valid = true;
+			}
+			catch (InputMismatchException e)
+			{
+				System.out.println("Valeur invalide, entier demandé, veuillez réessayer");
+			}
+		}
+		return res;
+	}
+	
+	public void run()
+	{
+		int res = -1;
+		do {
+			System.out.println(menus.get(0));
+			effectuerAction(res);
+			res = lireEntier();
+		} 
+		while (res > 1);
+	}
+	
 	public static void main(String[] args)
 	{	
 		Main main = new Main();
-		
-		
-		
-		Integer res = sc.nextInt();
-		
-		main.effectuerAction(res);
-		
-		sc.close();
+		main.run();
 	}
 	
 }
