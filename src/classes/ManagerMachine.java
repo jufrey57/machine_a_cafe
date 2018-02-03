@@ -1,8 +1,14 @@
-package src;
+package classes;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
+ */
+
+/** TODO
+ * 5 boissons
+ * +/- sucre
+ * persistance des ingrédients/boissons
  */
 
 import java.util.ArrayList;
@@ -95,6 +101,29 @@ public class ManagerMachine {
     }
     
     /**
+     * getBoisson() Recherche une boisson et revoie l'objet
+     * @param nom
+     * @return <Boisson> Objet boisson
+     */
+    public Boisson getBoisson(String nom)
+    {
+    		Boisson boisson = null;
+    		int i = -1;
+    		boolean trouve = false;
+    		while(i < 2 && !trouve)
+    		{
+    			i++;
+    			if(this.boissons.get(i).getNom().equals(nom))
+    			{
+    				boisson = this.boissons.get(i);
+    				trouve = true;
+    			}
+    		}
+
+    		return boisson;
+    }
+    
+    /**
      * getQuantiteIngredient() 
      * @param nom
      * @return la quantité de cet ingrédient
@@ -165,12 +194,12 @@ public class ManagerMachine {
     }
     
     /**
-     * ajouterIngredient() ajoute un ingredient à la machine (on parle de la quantité)
+     * modifierIngredient() ajoute un ingredient à la machine (on parle de la quantité)
      * @param ingredient
      * @param quantite
      * @return
      */
-    public boolean ajouterIngredient(String ingredient, int quantite)
+    public boolean modifierIngredient(String ingredient, int quantite)
     {
     		boolean reponse = false;
     		
@@ -198,6 +227,35 @@ public class ManagerMachine {
     			reponse = true;
     		}
     		
+    		return reponse;
+    }
+    
+    public int acheterUneBoisson(String nom, int argent) { // A finir
+    	
+    		int prix = this.getBoisson(nom).getPrix();
+    		HashMap<String, Integer> listeIngredientsBoisson = new HashMap<String, Integer>();
+    		listeIngredientsBoisson = this.getBoisson(nom).getListeIngredient();
+    		
+    		if((argent - prix) <= 0) 
+    		{
+    			for(String ingredient : listeIngredientsBoisson.keySet())
+    			{
+    				// A finir
+    			}	
+    		}
+    	
+    		return prix;
+    }
+    
+    public boolean ajoutIngredientBoisson(String nom, String ingredient, int quantite)
+    {
+    		boolean reponse = false;
+    		if(this.getBoisson(nom) != null)
+    		{
+    			this.getBoisson(nom).modifierIngredient(ingredient, quantite);
+    			reponse = true;
+    		}
+    
     		return reponse;
     }
 }

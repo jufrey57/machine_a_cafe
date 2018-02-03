@@ -1,4 +1,4 @@
-package src;
+package classes;
 
 import java.io.IOException;
 /**
