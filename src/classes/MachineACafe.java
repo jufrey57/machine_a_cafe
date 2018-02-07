@@ -5,6 +5,9 @@ package classes;
  * and open the template in the editor.
  */
 
+import exceptions.BoissonDoublonException;
+import exceptions.MaximumBoissonAtteintException;
+import exceptions.PrixInvalideException;
 
 /**
  *
@@ -14,8 +17,11 @@ public class MachineACafe {
 
     /**
      * @param args the command line arguments
+     * @throws PrixInvalideException 
+     * @throws MaximumBoissonAtteintException 
+     * @throws BoissonDoublonException 
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws BoissonDoublonException, MaximumBoissonAtteintException, PrixInvalideException {
         ManagerMachine machine = new ManagerMachine();
         
         machine.ajoutBoisson("cafe latte", 4);
@@ -25,7 +31,13 @@ public class MachineACafe {
         machine.ajoutIngredientBoisson("chocolat", "chocolat", 20);
         machine.ajoutIngredientBoisson("chocolat", "sucre", 40);
         
-        System.out.println(machine.getBoisson("chocolat").getListeIngredient());
+        machine.ajoutIngredientBoisson("cafe latte", "sucre", 40);
+        
+        System.out.println(machine.getListeIngredients());
+        
+        System.out.println(machine.acheterUneBoisson("cafe latte", 5));
+        
+        System.out.println(machine.getListeIngredients());
     }
     
 }

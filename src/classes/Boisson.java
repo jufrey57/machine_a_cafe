@@ -37,9 +37,15 @@ public class Boisson {
 	 * @param nombre		Integer
 	 * @return Integer	Dernière valeur associée à ingredient, null sinon
 	 */
-	public int modifierIngredient(String ingredient, Integer nombre)
+	public boolean modifierIngredient(String ingredient, Integer nombre)
 	{
-		return this.listeIngredient.put(ingredient, nombre);	
+		boolean reponse = false;
+		if(this.listeIngredient.put(ingredient, nombre) != null)
+		{
+			reponse = true;
+		}
+		
+		return reponse;	
 	}
 	
 	/**
