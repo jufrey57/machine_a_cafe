@@ -149,6 +149,8 @@ public class Main
 			catch (InputMismatchException e)
 			{
 				System.out.println("Valeur invalide, entier demandé, veuillez réessayer");
+				res = -1;
+				sc.nextLine();
 			}
 		}
 		return res;
@@ -162,7 +164,7 @@ public class Main
 			effectuerAction(res);
 			res = lireEntier();
 		} 
-		while (res > 1);
+		while (res < 1);
 	}
 	
 	public static void main(String[] args)
