@@ -33,7 +33,7 @@ public class ManagerMachine {
         ingredients.put("cafe", 200);
         ingredients.put("lait", 200);
         ingredients.put("chocolat", 200);
-        ingredients.put("sucre", 200);
+        ingredients.put("sucre", 30);
     }
     
     /**
@@ -214,26 +214,6 @@ public class ManagerMachine {
     }
     
     /**
-     * modifierIngredient() retire une quantité à un ingredient de la machine
-     * @param ingredient
-     * @param quantite
-     * @return Retourne true si ça c'est bien passé, sinon false
-     */
-    private boolean retirerIngredient(String ingredient, int quantite)
-    {
-    		boolean reponse = false;
-    		
-    		if(this.verifierQuantiteIngredient(ingredient, quantite))
-		{
-			quantite = this.getQuantiteIngredient(ingredient) - quantite;
-			this.ingredients.put(ingredient, quantite);
-			reponse = true;
-		}
-    	
-    		return reponse;
-    }
-    
-    /**
      * verifierQuantiteIngredient() Vérifie que la quantité ne dépasse pas 200
      * @param ingredient
      * @param quantite
@@ -242,7 +222,7 @@ public class ManagerMachine {
     public boolean verifierQuantiteIngredient(String ingredient, int quantite)
     {
     		boolean reponse = false;
-    		if((this.getQuantiteIngredient(ingredient) + quantite) > 200)
+    		if((this.getQuantiteIngredient(ingredient) + quantite) < 200)
     		{
     			reponse = true;
     		}
@@ -255,7 +235,7 @@ public class ManagerMachine {
      * acheterUneBoisson() L'achat de boisson inclut le fait de retirer la quantité d'ingrédient demandé par la boisson puis de rendre la monnaie
      * @param nom
      * @param argent
-     * @return La monnaie à rendre. Si aRendre < 0 alors pas assez d'argent
+     * @return La monnaie à rendre. Si aRendre < 0 alors pas assez d'argent ou 
      */
     public int acheterUneBoisson(String nom, int argent) {
     	
@@ -267,10 +247,17 @@ public class ManagerMachine {
     		
     		if(aRendre >= 0) 
     		{
-    			for(String ingredient : listeIngredientsBoisson.keySet())
+    			if(this.vérifierAssezDIngredient(boisson)){
+    				for(String ingredient : listeIngredientsBoisson.keySet())
+        			{
+        				this.retirerIngredient(ingredient, listeIngredientsBoisson.get(ingredient));
+        			}	
+    			}
+    			else
     			{
-    				this.retirerIngredient(ingredient, listeIngredientsBoisson.get(ingredient));
-    			}	
+    				aRendre = -100;
+    			}
+    			
     		}
     	
     		return aRendre;
@@ -293,5 +280,48 @@ public class ManagerMachine {
     		}
     		
     		return reponse;
+    }
+    
+    /**
+     * modifierIngredient() retire une quantité à un ingredient de la machine
+     * @param ingredient
+     * @param quantite
+     * @return Retourne true si ça c'est bien passé, sinon false
+     */
+    private boolean retirerIngredient(String ingredient, int quantite)
+    {
+    		boolean reponse = false;
+    		
+    		if(this.verifierQuantiteIngredient(ingredient, quantite))
+		{
+			quantite = this.getQuantiteIngredient(ingredient) - quantite;
+			this.ingredients.put(ingredient, quantite);
+			reponse = true;
+		}
+    	
+    		return reponse;
+    }
+    
+    /**
+     * checkAssezDIngredient() Vérifier qu'il y a assez d'ingrédient dans la machine
+     * @param ingredient
+     * @param quantite
+     * @return Si vrai, il y a assez d'ingrédient
+     */
+    private boolean vérifierAssezDIngredient(Boisson boisson)
+    {
+    		boolean reponse = true;
+    		HashMap<String, Integer> listeIngredients = new HashMap<String, Integer>(); 
+    		listeIngredients = boisson.getListeIngredient();
+    		
+    		for(String ingredient : listeIngredients.keySet()) 
+    		{
+    			if((this.getQuantiteIngredient(ingredient) - listeIngredients.get(ingredient)) < 0)
+    			{
+    				reponse = false;
+    			}
+    		}
+	
+		return reponse;
     }
 }

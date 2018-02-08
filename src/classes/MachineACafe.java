@@ -37,6 +37,8 @@ public class MachineACafe {
         
         System.out.println(machine.acheterUneBoisson("cafe latte", 5));
         
+        System.out.println(machine.modifierIngredient("sucre", 50));
+        
         System.out.println(machine.getListeIngredients());
     }
     
