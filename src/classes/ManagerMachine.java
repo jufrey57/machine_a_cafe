@@ -279,14 +279,21 @@ public class ManagerMachine implements java.io.Serializable {
      */
     public boolean ajoutIngredientBoisson(String nom, String ingredient, Integer quantite)
     {
-    		boolean reponse = false;
-    		if(this.getBoisson(nom) != null)
-    		{
-    			this.getBoisson(nom).modifierIngredient(ingredient, quantite);
-    			reponse = true;
-    		}
-    		
-    		return reponse;
+           boolean reponse = this.getBoisson(nom) != null && this.getBoisson(nom).modifierIngredient(ingredient, quantite);     
+           return reponse;
+	}
+    
+    /**
+     * ajoutIngredientBoisson() Ajout d'un ingrédient à une boisson
+     * @param Boisson boisson boisson à modifier
+     * @param String ingredient ingrédient à MAJ
+     * @param quantite nouvelle quantité pour cet ingrédient
+     * @return boolean true si ça c'est bien passé, sinon false
+     */
+    public boolean ajoutIngredientBoisson(Boisson boisson, String ingredient, Integer quantite)
+    {
+    		boolean res = boisson != null && boisson.modifierIngredient(ingredient, quantite); 
+    		return res;
     }
     
     /**

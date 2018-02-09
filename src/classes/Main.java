@@ -6,8 +6,10 @@ import java.io.IOException;
  * @author Maxime
  */
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.util.Set;
 
 import exceptions.AucuneBoissonDisponibleException;
 import exceptions.BoissonDoublonException;
@@ -93,7 +95,20 @@ public class Main
 			else
 				System.out.println("Problème lors de l'ajout de la boisson");
 			
-			ajouterIngredient(boisson);
+			String menu = "N\tnom\n";
+			ArrayList<String> ingredients = new ArrayList<String>();
+			
+			for(String ingredient : manager.getNomIngredients())
+				ingredients.add(ingredient);
+			
+			for (int i = 0; i < ingredients.size(); i++)
+			{
+				menu += (i+1) + ") " + ingredients.get(i) + "\n";
+			}
+			
+			menu += "0) Quitter";
+			
+			ajouterIngredient(boisson, menu, ingredients);
 		}
 		catch (BoissonDoublonException e)
 		{
@@ -112,13 +127,20 @@ public class Main
 		}
 	}
 	
-	private void ajouterIngredient(Boisson boisson)
+	private void ajouterIngredient(Boisson boisson, String menu, ArrayList<String> ingredients)
 	{
-		int res = 0;
+		int res = 1;
 		do {
-			System.out.println(manager.getListeIngredients());
-			res = lireEntier();
-		} while (res > 0);
+			System.out.println(menu);
+			res = lireEntier() - 1;
+			if (res == -1)
+				continue;
+			System.out.println("Donner la quantité nécessaire pour cet ingrédient");
+			int quantite = lireEntier();
+			String ingredient = ingredients.get(res);
+			System.out.println("Ingrédient " + ingredient + " ajouté à " + boisson.getNom() + " au nombre de " + quantite);
+			manager.ajoutIngredientBoisson(boisson, ingredient, quantite);
+		} while (res > -1);
 	}
 	
 	private String effectuerAction(int action)
