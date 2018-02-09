@@ -22,24 +22,8 @@ public class MachineACafe {
      * @throws BoissonDoublonException 
      */
     public static void main(String[] args) throws BoissonDoublonException, MaximumBoissonAtteintException, PrixInvalideException {
-        ManagerMachine machine = new ManagerMachine();
+        ManagerMachine machine = Save.deserialize("sauvegarde");
         
-        machine.ajoutBoisson("cafe latte", 4);
-        machine.ajoutBoisson("cafe creme", 3);
-        machine.ajoutBoisson("chocolat", 2);
-
-        machine.ajoutIngredientBoisson("chocolat", "chocolat", 20);
-        machine.ajoutIngredientBoisson("chocolat", "sucre", 40);
-        
-        machine.ajoutIngredientBoisson("cafe latte", "sucre", 40);
-        
-        System.out.println(machine.getListeIngredients());
-        
-        System.out.println(machine.acheterBoisson("cafe latte", 5));
-        
-        System.out.println(machine.modifierIngredient("sucre", 50));
-        
-        System.out.println(machine.getListeIngredients());
     }
     
 }

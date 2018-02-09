@@ -1,6 +1,6 @@
 package classes;
 
-
+import java.io.Serializable;
 import java.util.HashMap;
 
 /**
@@ -8,7 +8,7 @@ import java.util.HashMap;
  * 
  * @author Maxime
  */
-public class Boisson {
+public class Boisson implements java.io.Serializable {
 	
 	/** Nom de cette Boisson */
 	private String nom;
