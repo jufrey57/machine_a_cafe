@@ -11,6 +11,7 @@ import java.util.Scanner;
 
 import exceptions.AucuneBoissonDisponibleException;
 import exceptions.BoissonDoublonException;
+import exceptions.EntreeInvalideException;
 import exceptions.MaximumBoissonAtteintException;
 import exceptions.PrixInvalideException;
 
@@ -45,12 +46,10 @@ public class Main
 				+ "6) Ajouter un ingrédient\n"
 				+ "7) Lister les boissons disponibles\n"
 				+ "8) Quitter");
-		
-		menus.add("");
 
 	}
 	
-	private Boisson choisirBoisson() throws AucuneBoissonDisponibleException
+	private Boisson choisirBoisson() throws AucuneBoissonDisponibleException, EntreeInvalideException
 	{
 		System.out.println("Veuillez saisir le numéro de la boisson souhaitée :");
 		System.out.println(manager);
@@ -66,28 +65,60 @@ public class Main
 			System.out.println("Veuillez saisir un numéro de boisson valide svp");
 			boisson = choisirBoisson();
 		}
+		catch (AucuneBoissonDisponibleException ae)
+		{
+			System.out.println("Plus aucune boisson n'est disponible");
+			throw new EntreeInvalideException();
+		}
 		
 		return boisson;
 	}
 	
 	private void ajouterBoisson()
 	{
-		// Nommer la boisson
-		System.out.println("Donner un nom à votre boisson");
-		String nom = sc.nextLine();
 		// Donner un prix à la boisson
 		System.out.println("Donner un prix à votre boisson");
 		int prix = lireEntier();
 		
-		//Boisson boisson = manager.ajoutBoisson(nom, prix);
+		// Nommer la boisson
+		System.out.println("Donner un nom à votre boisson");
+		String nom = sc.nextLine();
 		
-		// Afficher boisson ajoutée
-		if (boisson != null)
-			System.out.println("Boisson ajoutée");
-		else
-			System.out.println("Problème lors de l'ajout de la boisson");
-		
-		//manager.modifierBoisson(boisson);
+		try {
+			Boisson boisson = manager.ajoutBoisson(nom, prix);
+			
+			// Afficher boisson ajoutée
+			if (boisson != null)
+				System.out.println("Boisson ajoutée");
+			else
+				System.out.println("Problème lors de l'ajout de la boisson");
+			
+			ajouterIngredient(boisson);
+		}
+		catch (BoissonDoublonException e)
+		{
+			System.out.println("Ce nom de boisson est déjà utilisé");
+			ajouterBoisson();
+		}
+		catch (MaximumBoissonAtteintException e)
+		{
+			System.out.println("le nombre maximal de boissons à été atteint pour cette machine");
+			ajouterBoisson();
+		}
+		catch (PrixInvalideException e)
+		{
+			System.out.println("Le prix donné à cette boisson est invalide");
+			ajouterBoisson();
+		}
+	}
+	
+	private void ajouterIngredient(Boisson boisson)
+	{
+		int res = 0;
+		do {
+			System.out.println(manager.getListeIngredients());
+			res = lireEntier();
+		} while (res > 0);
 	}
 	
 	private String effectuerAction(int action)
@@ -141,7 +172,7 @@ public class Main
 					
 					// Ajouter une boisson
 				case 4:
-					this.ajouterBoisson();
+					ajouterBoisson();
 					break;
 					
 					// Vérifier le stock d'ingrédients
@@ -174,9 +205,11 @@ public class Main
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-			} catch (AucuneBoissonDisponibleException ae)
+			} catch (EntreeInvalideException ex)
 			{
-				System.out.println("Plus aucune boisson n'est disponible, retour au menu principal");
+				System.out.println("Retour au menu principal");
+			} catch (AucuneBoissonDisponibleException e1) {
+				e1.printStackTrace();
 			}
 		}
 		else
@@ -193,6 +226,7 @@ public class Main
 		{
 			try {
 				res = sc.nextInt();
+				sc.nextLine();
 				valid = true;
 			}
 			catch (InputMismatchException e)
@@ -207,7 +241,6 @@ public class Main
 	
 	public void run()
 	{
-		
 		int res = -1;
 		int argent = 0;
 		do {
