@@ -33,7 +33,7 @@ public class ManagerMachine {
         ingredients.put("cafe", 200);
         ingredients.put("lait", 200);
         ingredients.put("chocolat", 200);
-        ingredients.put("sucre", 30);
+        ingredients.put("sucre", 200);
     }
     
     /**
