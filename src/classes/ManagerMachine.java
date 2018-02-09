@@ -11,8 +11,10 @@ package classes;
  * persistance des ingrédients/boissons
  */
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Set;
 
 import exceptions.BoissonDoublonException;
 import exceptions.MaximumBoissonAtteintException;
@@ -22,7 +24,7 @@ import exceptions.PrixInvalideException;
  *
  * @author julien, Maxime
  */
-public class ManagerMachine {
+public class ManagerMachine implements java.io.Serializable {
     private HashMap<String,Integer> ingredients = new HashMap<String,Integer>();
     private ArrayList<Boisson> boissons = new ArrayList<Boisson>();
     private final int MAXIMUM_BOISSON = 5;
@@ -191,6 +193,11 @@ public class ManagerMachine {
         
 
 		return listeIngredients;
+    }
+    
+    public Set<String> getNomIngredients()
+    {
+    		return ingredients.keySet();
     }
     
     /**
