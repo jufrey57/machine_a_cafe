@@ -237,13 +237,12 @@ public class ManagerMachine {
      * @param argent
      * @return La monnaie à rendre. Si aRendre < 0 alors pas assez d'argent ou 
      */
-    public int acheterUneBoisson(String nom, int argent) {
+    public Integer acheterBoisson(Boisson boisson, int argent) {
     	
-    		Boisson boisson = this.getBoisson(nom);
     		int prix = boisson.getPrix();
     		HashMap<String, Integer> listeIngredientsBoisson = new HashMap<String, Integer>();
     		listeIngredientsBoisson = boisson.getListeIngredient();
-    		int aRendre =  argent - prix;
+    		Integer aRendre =  argent - prix;
     		
     		if(aRendre >= 0) 
     		{
@@ -255,7 +254,7 @@ public class ManagerMachine {
     			}
     			else
     			{
-    				aRendre = -100;
+    				aRendre = null;
     			}
     			
     		}

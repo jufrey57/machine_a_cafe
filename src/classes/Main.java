@@ -86,47 +86,51 @@ public class Main
 	{
 		String res = "";
 		if (action > 0)
-		{			
+		{
 			Boisson boisson;
-			if (action < 4)
-				boisson = choisirBoisson();
 			
 			switch (action)
 			{
 			// Acheter une boisson
 			case 1:
-				//manager.acheterBoisson(boisson);
+				boisson = choisirBoisson();
+				System.out.println("Veuillez insérer de la monnaie svp");
+				int argent = lireEntier();
+				if (argent <= 0)
+					System.out.println("Error : Veuillez insérer de la monnaie");
+				
+				manager.acheterBoisson(boisson, argent);
 				break;
-			
-			// Modifier une boisson	
+				
+				// Modifier une boisson	
 			case 2:
 				//manager.modifierBoisson(boisson);
 				break;
-			
-			// Supprimer une boisson
+				
+				// Supprimer une boisson
 			case 3:
 				//manager.supprimerBoisson(boisson);
 				break;
-			
-			// Ajouter une boisson
+				
+				// Ajouter une boisson
 			case 4:
 				this.ajouterBoisson();
 				break;
-			
-			// Vérifier le stock d'ingrédients
+				
+				// Vérifier le stock d'ingrédients
 			case 5:
 				res = this.manager.getListeIngredients();
 				System.out.println(res);
 				break;
-			
-			// Ajouter un ingrédient à une boisson
+				
+				// Ajouter un ingrédient à une boisson
 			case 6:
 				
 				break;
-	
-			// Erreur, action inconnue
+				
+				// Erreur, action inconnue
 			default:
-				// TODO: 
+				System.out.println("valeur non définie");
 				break;
 			}
 		}
@@ -158,11 +162,13 @@ public class Main
 	
 	public void run()
 	{
+		
 		int res = -1;
+		int argent = 0;
 		do {
 			System.out.println(menus.get(0));
-			effectuerAction(res);
 			res = lireEntier();
+			effectuerAction(res);
 		} 
 		while (res < 1);
 	}
