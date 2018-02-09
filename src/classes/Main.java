@@ -9,6 +9,10 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import exceptions.BoissonDoublonException;
+import exceptions.MaximumBoissonAtteintException;
+import exceptions.PrixInvalideException;
+
 public class Main
 {
 	/** ArrayList<String> Contient les lignes du menus **/
@@ -21,11 +25,12 @@ public class Main
 	// TODO: Faire un sytème de log
 	// TODO: Utiliser un enum ou un moyen propre de stocker les infos du menu
 	
-	public Main()
+	public Main() throws BoissonDoublonException, MaximumBoissonAtteintException, PrixInvalideException
 	{
 		menus = new ArrayList<String>();
 		manager = new ManagerMachine();
 		sc = new Scanner(System.in);
+		this.init();
 
 		// Accueil
 		menus.add("-- Menu prinicpal de la machine à café --\n"
@@ -165,6 +170,14 @@ public class Main
 			res = lireEntier();
 		} 
 		while (res < 1);
+	}
+	
+	public void init() throws BoissonDoublonException, MaximumBoissonAtteintException, PrixInvalideException
+	{
+		manager.ajoutBoisson("expresso", 4);
+		manager.ajoutBoisson("cafe long", 3);
+		manager.ajoutBoisson("chocolat", 2);
+		manager.ajoutBoisson("cappuccino", 3);
 	}
 	
 	public static void main(String[] args)
