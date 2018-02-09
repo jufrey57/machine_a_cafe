@@ -41,7 +41,8 @@ public class Main
 				+ "3) Supprimer une boisson\n"
 				+ "4) Ajouter une boisson\n"
 				+ "5) Vérifier le stock d'ingrédients\n"
-				+ "6) Ajouter un ingrédient");
+				+ "6) Ajouter un ingrédient\n"
+				+ "7) Quitter");
 		
 		menus.add("");
 
@@ -49,21 +50,11 @@ public class Main
 	
 	private Boisson choisirBoisson()
 	{
-		ArrayList<Boisson> boissons = manager.getListeBoissons();
-		
-		String listeBoissons = "N°:\tPrix \tNom \n";
-		for(int i = 0; i < boissons.size(); i++) 
-		{
-			Boisson boisson = boissons.get(i);
-			listeBoissons += i + "\t" + boisson.getPrix() + "\t" + boisson.getNom() + "\n";
-		}
-		
-		System.out.println("Veuillez choisir votre boisson :");
-		System.out.println(manager.getListeBoissons());
+		System.out.println("Veuillez saisir le numéro de la boisson souhaitée :");
+		System.out.println(manager);
 		
 		int index = lireEntier() - 1;
-		// FIXME: Vérifier la validité de l'index
-		Boisson boisson = boissons.get(index);
+		Boisson boisson = manager.getBoisson(index);
 		
 		return boisson;
 	}
@@ -154,6 +145,11 @@ public class Main
 				// Ajouter un ingrédient à une boisson
 			case 6:
 				
+				break;
+				
+			case 7:
+				System.out.println("Merci de votre visite");
+				System.exit(0);
 				break;
 				
 				// Erreur, action inconnue
