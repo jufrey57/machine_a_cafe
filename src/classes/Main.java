@@ -25,7 +25,7 @@ public class Main
 	// TODO: Faire un sytème de log
 	// TODO: Utiliser un enum ou un moyen propre de stocker les infos du menu
 	
-	public Main() throws BoissonDoublonException, MaximumBoissonAtteintException, PrixInvalideException
+	public Main()
 	{
 		menus = new ArrayList<String>();
 		manager = new ManagerMachine();
@@ -172,17 +172,23 @@ public class Main
 		while (res < 1);
 	}
 	
-	public void init() throws BoissonDoublonException, MaximumBoissonAtteintException, PrixInvalideException
+	public void init()
 	{
-		manager.ajoutBoisson("expresso", 4);
-		manager.ajoutBoisson("cafe long", 3);
-		manager.ajoutBoisson("chocolat", 2);
-		manager.ajoutBoisson("cappuccino", 3);
+		try {
+			manager.ajoutBoisson("expresso", 4);
+			manager.ajoutBoisson("cafe long", 3);
+			manager.ajoutBoisson("chocolat", 2);
+			manager.ajoutBoisson("cappuccino", 3);
+		} catch (BoissonDoublonException | MaximumBoissonAtteintException | PrixInvalideException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public static void main(String[] args)
 	{	
-		Main main = new Main();
+		Main main;
+		main = new Main();
 		main.run();
 	}
 	
