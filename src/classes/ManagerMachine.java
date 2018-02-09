@@ -287,18 +287,13 @@ public class ManagerMachine {
      * @param quantite
      * @return Retourne true si ça c'est bien passé, sinon false
      */
-    private boolean retirerIngredient(String ingredient, int quantite)
+    private void retirerIngredient(String ingredient, int quantite)
     {
-    		boolean reponse = false;
     		
-    		if(this.verifierQuantiteIngredient(ingredient, quantite))
-		{
-			quantite = this.getQuantiteIngredient(ingredient) - quantite;
-			this.ingredients.put(ingredient, quantite);
-			reponse = true;
-		}
-    	
-    		return reponse;
+		quantite = this.getQuantiteIngredient(ingredient) - quantite;
+		System.out.println(ingredient + "->" + quantite);
+		this.ingredients.put(ingredient, quantite);
+		
     }
     
     /**

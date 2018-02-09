@@ -208,6 +208,19 @@ public class Main
 			manager.ajoutBoisson("cafe long", 3);
 			manager.ajoutBoisson("chocolat", 2);
 			manager.ajoutBoisson("cappuccino", 3);
+			
+			manager.ajoutIngredientBoisson("expresso", "sucre", 5);
+			manager.ajoutIngredientBoisson("expresso", "cafe", 30);
+			
+			manager.ajoutIngredientBoisson("cafe long", "sucre", 5);
+			manager.ajoutIngredientBoisson("cafe long", "cafe", 10);
+			
+			manager.ajoutIngredientBoisson("chocolat", "chocolat", 10);
+			manager.ajoutIngredientBoisson("chocolat", "sucre", 5);
+			
+			manager.ajoutIngredientBoisson("chocolat", "chocolat", 10);
+			manager.ajoutIngredientBoisson("cafe long", "cafe", 10);
+			manager.ajoutIngredientBoisson("chocolat", "sucre", 5);
 		} catch (BoissonDoublonException | MaximumBoissonAtteintException | PrixInvalideException e) {
 			e.printStackTrace();
 		}
