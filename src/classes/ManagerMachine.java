@@ -282,7 +282,7 @@ public class ManagerMachine {
     }
     
     /**
-     * modifierIngredient() retire une quantité à un ingredient de la machine
+     * retirerIngredient() retire une quantité à un ingredient de la machine
      * @param ingredient
      * @param quantite
      * @return Retourne true si ça c'est bien passé, sinon false
