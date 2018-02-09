@@ -291,7 +291,6 @@ public class ManagerMachine {
     {
     		
 		quantite = this.getQuantiteIngredient(ingredient) - quantite;
-		System.out.println(ingredient + "->" + quantite);
 		this.ingredients.put(ingredient, quantite);
 		
     }

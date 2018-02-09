@@ -214,9 +214,9 @@ public class Main
 			manager.ajoutIngredientBoisson("chocolat", "chocolat", 10);
 			manager.ajoutIngredientBoisson("chocolat", "sucre", 5);
 			
-			manager.ajoutIngredientBoisson("chocolat", "chocolat", 10);
-			manager.ajoutIngredientBoisson("cafe long", "cafe", 10);
-			manager.ajoutIngredientBoisson("chocolat", "sucre", 5);
+			manager.ajoutIngredientBoisson("cappuccino", "chocolat", 10);
+			manager.ajoutIngredientBoisson("cappuccino", "cafe", 10);
+			manager.ajoutIngredientBoisson("cappuccino", "sucre", 5);
 		} catch (BoissonDoublonException | MaximumBoissonAtteintException | PrixInvalideException e) {
 			e.printStackTrace();
 		}
