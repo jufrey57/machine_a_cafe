@@ -122,7 +122,8 @@ public class Main
 				
 				// Supprimer une boisson
 			case 3:
-				//manager.supprimerBoisson(boisson);
+				boisson = choisirBoisson();
+				manager.supprimerBoisson(boisson);
 				break;
 				
 				// Ajouter une boisson
@@ -134,12 +135,6 @@ public class Main
 			case 5:
 				res = this.manager.getListeIngredients();
 				System.out.println(res);
-				System.out.println("Appuyer sur entrée pour revenir au menu principal");
-				try {
-					System.in.read();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
 				break;
 				
 				// Ajouter un ingrédient à une boisson
@@ -156,6 +151,12 @@ public class Main
 			default:
 				System.out.println("valeur non définie");
 				break;
+			}
+			System.out.println("Appuyer sur entrée pour revenir au menu principal");
+			try {
+				System.in.read();
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
 		}
 		else
