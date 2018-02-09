@@ -318,4 +318,28 @@ public class ManagerMachine {
 	
 		return reponse;
     }
+    
+    public Boisson getBoisson(int index)
+    {
+    		Boisson res = null;
+    		if (index < boissons.size())
+    			res = this.boissons.get(index);
+    		return res;
+    }
+    
+    /**
+     * Retourne une chaîne descriptive des différentes boissons de la machine
+     * @return string liste de boissons
+     */
+    public String toString()
+    {
+    		String res = "N°:\tPrix \tBoisson (ingrédients)\n";
+    		Boisson boisson;
+    		for (int i = 0; i < boissons.size(); i++)
+    		{
+    			boisson = boissons.get(i);
+    			res += (i+1) + ")\t" + boisson.getPrix() + "\t" + boisson + "\n";
+    		}
+    		return res;
+    }
 }
