@@ -24,6 +24,7 @@ public class Main
 	private Scanner sc;
 	// TODO: Faire un sytème de log
 	// TODO: Utiliser un enum ou un moyen propre de stocker les infos du menu
+	// TODO: Changer le toString de machinemanager
 	
 	public Main()
 	{
@@ -60,7 +61,7 @@ public class Main
 		System.out.println("Veuillez choisir votre boisson :");
 		System.out.println(manager.getListeBoissons());
 		
-		int index = lireEntier();
+		int index = lireEntier() - 1;
 		// FIXME: Vérifier la validité de l'index
 		Boisson boisson = boissons.get(index);
 		
@@ -101,11 +102,27 @@ public class Main
 				boisson = choisirBoisson();
 				System.out.println("Veuillez insérer de la monnaie svp");
 				int argent = lireEntier();
+				
 				if (argent <= 0)
 					System.out.println("Error : Veuillez insérer de la monnaie");
-				
-				manager.acheterBoisson(boisson, argent);
-				break;
+				else
+				{			
+					Integer reste = manager.acheterBoisson(boisson, argent);
+					
+					if (reste == null)
+						System.out.println("Erreur lors de la préparation, veuillez récupérer votre monnaie " + argent);
+	
+					else if (reste < 0)
+						System.out.println("Erreur : Fonds insuffisants");
+					
+					else if (reste > 0)
+						System.out.println("Veuillez récupérez votre monnaie : " + reste);
+					
+					else if (reste == 0)
+						System.out.println("Merci, dégustez bien votre breuvage");
+					
+					break;
+				}
 				
 				// Modifier une boisson	
 			case 2:
@@ -126,6 +143,12 @@ public class Main
 			case 5:
 				res = this.manager.getListeIngredients();
 				System.out.println(res);
+				System.out.println("Appuyer sur entrée pour revenir au menu principal");
+				try {
+					System.in.read();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 				break;
 				
 				// Ajouter un ingrédient à une boisson
@@ -186,7 +209,6 @@ public class Main
 			manager.ajoutBoisson("chocolat", 2);
 			manager.ajoutBoisson("cappuccino", 3);
 		} catch (BoissonDoublonException | MaximumBoissonAtteintException | PrixInvalideException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
