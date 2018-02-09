@@ -175,7 +175,7 @@ public class Main
 			res = lireEntier();
 			effectuerAction(res);
 		} 
-		while (res < 1);
+		while (true);
 	}
 	
 	public void init()
