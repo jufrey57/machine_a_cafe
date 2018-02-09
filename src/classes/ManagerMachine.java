@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 
+import exceptions.AucuneBoissonDisponibleException;
 import exceptions.BoissonDoublonException;
 import exceptions.MaximumBoissonAtteintException;
 import exceptions.PrixInvalideException;
@@ -325,12 +326,12 @@ public class ManagerMachine implements java.io.Serializable {
 		return reponse;
     }
     
-    public Boisson getBoisson(int index)
+    public Boisson getBoisson(int index) throws IndexOutOfBoundsException, AucuneBoissonDisponibleException
     {
-    		Boisson res = null;
-    		if (index < boissons.size())
-    			res = this.boissons.get(index);
-    		return res;
+    		if (boissons.size() < 1)
+    			throw new AucuneBoissonDisponibleException();
+    		else
+    			return this.boissons.get(index);
     }
     
     /**
