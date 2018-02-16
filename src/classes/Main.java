@@ -418,68 +418,40 @@ public class Main
 	
 	public void init()
 	{
-		/*try {
+		try {
 			if(Save.importationIngredients() != null)
 			{
-				ingredients = Save.importationIngredients();
-				boissons = Save.importationBoissons();
+				manager.setIngredients(Save.importationIngredients());
+				manager.setBoissons(Save.importationBoissons());
 			} else {
+				HashMap<String,Integer> ingredients = manager.getIngredients();
 				ingredients.put("cafe", 200);
 			    ingredients.put("lait", 200);
 			    ingredients.put("chocolat", 200);
 			    ingredients.put("sucre", 200);
-			    
+			    manager.setIngredients(ingredients);
 			    try {
-					ajoutBoisson("expresso", 4);
-					ajoutBoisson("cafe long", 3);
-					ajoutBoisson("chocolat", 2);
-					ajoutBoisson("cappuccino", 3);
+					manager.ajoutBoisson("expresso", 4);
+					manager.ajoutBoisson("cafe long", 3);
+					manager.ajoutBoisson("chocolat", 2);
+					manager.ajoutBoisson("cappuccino", 3);
 				} catch (BoissonDoublonException | MaximumBoissonAtteintException | PrixInvalideException e) {
 					e.printStackTrace();
 				}
 				
-				ajoutIngredientBoisson("expresso", "cafe", 30);
+			    manager.ajoutIngredientBoisson("expresso", "cafe", 30);
 				
-				ajoutIngredientBoisson("cafe long", "cafe", 10);
+			    manager.ajoutIngredientBoisson("cafe long", "cafe", 10);
 				
-				ajoutIngredientBoisson("chocolat", "chocolat", 5);
-				ajoutIngredientBoisson("chocolat", "lait", 10);
+			    manager.ajoutIngredientBoisson("chocolat", "chocolat", 5);
+			    manager.ajoutIngredientBoisson("chocolat", "lait", 10);
 				
-				ajoutIngredientBoisson("cappuccino", "chocolat", 10);
-				ajoutIngredientBoisson("cappuccino", "cafe", 10);
+			    manager.ajoutIngredientBoisson("cappuccino", "chocolat", 10);
+			    manager.ajoutIngredientBoisson("cappuccino", "cafe", 10);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-<<<<<<< HEAD
-		try {
-			manager.ajoutBoisson("expresso", 4);
-			manager.ajoutBoisson("cafe long", 3);
-			manager.ajoutBoisson("chocolat", 2);
-			manager.ajoutBoisson("cappuccino", 3);
-			
-	        manager.ajoutIngredient("cafe", 200);
-	        manager.ajoutIngredient("lait", 200);
-	        manager.ajoutIngredient("chocolat", 200);
-	        manager.ajoutIngredient("sucre", 5);
-			
-			//manager.ajoutIngredientBoisson("expresso", "sucre", 5);
-			//manager.ajoutIngredientBoisson("expresso", "cafe", 30);
->>>>>>> 73f965eb970cd1311c65b593be46ab8b2d5f61ad
-			
-<<<<<<< HEAD
-			manager.ajoutIngredientBoisson("cafe long", "cafe", 10);
-			
-			manager.ajoutIngredientBoisson("chocolat", "chocolat", 10);
-			
-			manager.ajoutIngredientBoisson("cappuccino", "chocolat", 10);
-			manager.ajoutIngredientBoisson("cappuccino", "cafe", 10);
-=======
->>>>>>> c23d381833f91acb32a4abf7f363d928715c7a67
-		} catch (BoissonDoublonException | MaximumBoissonAtteintException | PrixInvalideException e) {
-			e.printStackTrace();
-		}*/
 	}
 	
 	public static void main(String[] args)

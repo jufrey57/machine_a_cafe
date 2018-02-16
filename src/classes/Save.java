@@ -83,11 +83,11 @@ public class Save {
 	   sections.put("ingredients", ingredients);
 	   
 	   for(Boisson boisson : boissons) {
-		   System.out.println(boisson.getNom());
+		   //System.out.println(boisson.getNom());
 		   elementsBoisson.put("prix", String.valueOf(boisson.getPrix()));
 		   for(String ingredient : boisson.getListeIngredient().keySet()) {
-			   System.out.println(ingredient +"=>"+boisson.getListeIngredient().get(ingredient).toString());
-			   //elementsBoisson.put(ingredient, boisson.getListeIngredient().get(ingredient).toString());
+			   //System.out.println(ingredient +"=>"+boisson.getListeIngredient().get(ingredient).toString());
+			   elementsBoisson.put(ingredient, boisson.getListeIngredient().get(ingredient).toString());
 		   }
 		   sections.put(boisson.getNom(), elementsBoisson);
 	   }

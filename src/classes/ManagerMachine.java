@@ -34,8 +34,21 @@ public class ManagerMachine {
     private final int MAXIMUM_BOISSON = 5;
     private final int MAXIMUM_INGREDIENT = 200;
     
-    public HashMap<String,Integer> getIngredients(){
+    public HashMap<String,Integer> getIngredients()
+    {
+    		return ingredients;
+    }
+    
+    public HashMap<String,Integer> setIngredients(){
     		return this.ingredients;
+    }
+    
+    public void setIngredients(HashMap<String,Integer> ingredients) {
+    		this.ingredients = ingredients;
+    }
+    
+    public void setBoissons(ArrayList<Boisson> boissons) {
+		this.boissons = boissons;
     }
     
     /**
