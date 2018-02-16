@@ -12,8 +12,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Scanner;
-import java.util.Set;
-
 import exceptions.AucunIngredientDisponibleException;
 import exceptions.AucuneBoissonDisponibleException;
 import exceptions.BoissonDoublonException;
@@ -22,8 +20,7 @@ import exceptions.MaximumBoissonAtteintException;
 import exceptions.PrixInvalideException;
 
 public class Main
-{	
-	/** ManagerMachine Contient les  **/
+{
 	private ManagerMachine manager;
 	
 	private String menu;
@@ -31,7 +28,6 @@ public class Main
 	private Scanner sc;
 	// TODO: Faire un sytème de log
 	// TODO: Utiliser un enum ou un moyen propre de stocker les infos du menu
-	// TODO: Ajouter un paramètre pour l'affichage de la liste des boissons
 	
 	public Main()
 	{
@@ -147,7 +143,6 @@ public class Main
 	
 	private void ajouterIngredient(Boisson boisson) throws EntreeInvalideException
 	{
-		// TODO: Extraire la génération du menu la fonction pour optimiser 
 		String menu = "N\tIngrédient\n";
 		ArrayList<String> ingredients = new ArrayList<String>();
 		
@@ -259,10 +254,47 @@ public class Main
 		} while (res <= -1 || !resAjoutIngredient);
 	}
 	
+	private void acheterBoisson(Boisson boisson)
+	{
+		System.out.println("Veuillez insérer de la monnaie svp");
+		int argent = lireEntier();
+		
+		int quantiteSucre = 5;
+		
+		do {
+			System.out.println("Quelle quantité de sucre souhaitez-vous ? minimum - 0, maxmum - 10");
+			quantiteSucre = lireEntier();
+			
+			if(quantiteSucre < 0) {
+				System.out.println("Quantité de sucre incorrect\n");
+			} else if(quantiteSucre > 10){
+				System.out.println("Quantité de sucre trop élevé\n");
+			}
+		}while(quantiteSucre < 0 || quantiteSucre > 10);
+		
+		if (argent <= 0)
+			System.out.println("Error : Veuillez insérer de la monnaie");
+		else
+		{			
+			Integer reste = manager.acheterBoisson(boisson, argent, quantiteSucre);
+			
+			if (reste == null)
+				System.out.println("Erreur lors de la préparation, veuillez récupérer votre monnaie " + argent);
+
+			else if (reste < 0)
+				System.out.println("Erreur : Fonds insuffisants");
+			
+			else if (reste > 0)
+				System.out.println("Veuillez récupérez votre monnaie : " + reste);
+			
+			else if (reste == 0)
+				System.out.println("Merci, dégustez bien votre breuvage");
+		}
+	}
+	
 	private String effectuerAction(int action)
 	{
 		String res = "";
-		ArrayList<Boisson> resBoissons;
 		
 		if (action > 0)
 		{
@@ -272,76 +304,36 @@ public class Main
 			{
 				switch (action)
 				{
-				// Acheter une boisson
 				case 1:
 					boisson = choisirBoisson();
-					System.out.println("Veuillez insérer de la monnaie svp");
-					int argent = lireEntier();
-					
-					int quantiteSucre = 5;
-					
-					do {
-						System.out.println("Quelle quantité de sucre souhaitez-vous ? minimum - 0, maxmum - 10");
-						quantiteSucre = lireEntier();
+					acheterBoisson(boisson);
+					break;
 						
-						if(quantiteSucre < 0) {
-							System.out.println("Quantité de sucre incorrect\n");
-						} else if(quantiteSucre > 10){
-							System.out.println("Quantité de sucre trop élevé\n");
-						}
-					}while(quantiteSucre < 0 || quantiteSucre > 10);
-					
-					if (argent <= 0)
-						System.out.println("Error : Veuillez insérer de la monnaie");
-					else
-					{			
-						Integer reste = manager.acheterBoisson(boisson, argent, quantiteSucre);
-						
-						if (reste == null)
-							System.out.println("Erreur lors de la préparation, veuillez récupérer votre monnaie " + argent);
-		
-						else if (reste < 0)
-							System.out.println("Erreur : Fonds insuffisants");
-						
-						else if (reste > 0)
-							System.out.println("Veuillez récupérez votre monnaie : " + reste);
-						
-						else if (reste == 0)
-							System.out.println("Merci, dégustez bien votre breuvage");
-						
-						break;
-					}
-					
-					// Modifier une boisson	
 				case 2:
 					boisson = choisirBoisson();
 					modifierBoisson(boisson);
 					break;
 					
-					// Supprimer une boisson
 				case 3:
 					boisson = choisirBoisson();
 					manager.supprimerBoisson(boisson);
 					break;
 					
-					// Ajouter une boisson
 				case 4:
 					ajouterBoisson();
 					break;
 					
-					// Vérifier le stock d'ingrédients
 				case 5:
 					res = manager.getListeIngredients();
 					System.out.println(res);
 					break;
 					
-					// Ajouter un ingrédient à une boisson
 				case 6:
 					ajouterIngredient();
 					break;
 					
 				case 7:
-					resBoissons = manager.getListeBoissons();
+					res = manager.getListeBoissons().toString();
 					System.out.println(res);
 					break;
 					
@@ -350,9 +342,8 @@ public class Main
 					System.exit(0);
 					break;
 					
-					// Erreur, action inconnue
 				default:
-					System.out.println("valeur non définie");
+					System.out.println("Action inconnue");
 					break;
 				}
 				System.out.println("Appuyer sur entrée pour revenir au menu principal");
@@ -398,7 +389,6 @@ public class Main
 	public void run()
 	{
 		int res = -1;
-		int argent = 0;
 		do {
 			System.out.println(menu);
 			res = lireEntier();

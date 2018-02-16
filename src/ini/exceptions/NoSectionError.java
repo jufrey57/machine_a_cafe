@@ -20,7 +20,8 @@ package ini.exceptions;
  */
 public class NoSectionError extends Exception
 {
-    private String section;
+	private static final long serialVersionUID = 1L;
+	private String section;
 
     public NoSectionError (String section)
     {

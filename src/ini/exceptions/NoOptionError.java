@@ -20,7 +20,8 @@ package ini.exceptions;
  */
 public class NoOptionError extends Exception
 {
-    private String section;
+	private static final long serialVersionUID = 1L;
+	private String section;
     private String option;
 
     public NoOptionError (String section, String option)

@@ -5,16 +5,8 @@ package classes;
  * and open the template in the editor.
  */
 
-/** TODO
- * 5 boissons
- * +/- sucre
- * persistance des ingrédients/boissons
- */
-
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Scanner;
 import java.util.Set;
 
 import exceptions.AucuneBoissonDisponibleException;
@@ -26,7 +18,7 @@ import exceptions.PrixInvalideException;
  *
  * @author julien, Maxime
  */
-public class ManagerMachine implements java.io.Serializable {
+public class ManagerMachine {
     private HashMap<String,Integer> ingredients = new HashMap<String,Integer>();
     private ArrayList<Boisson> boissons = new ArrayList<Boisson>();
     private final int MAXIMUM_BOISSON = 5;

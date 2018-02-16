@@ -1,6 +1,5 @@
 package classes;
 
-import java.io.Serializable;
 import java.util.HashMap;
 
 /**
@@ -8,7 +7,7 @@ import java.util.HashMap;
  * 
  * @author Maxime
  */
-public class Boisson implements java.io.Serializable {
+public class Boisson {
 	
 	/** Nom de cette Boisson */
 	private String nom;
@@ -71,7 +70,7 @@ public class Boisson implements java.io.Serializable {
 	public String toString()
 	{
 		String desc = this.nom + " ( ";
-		for(HashMap.Entry ingredient : this.listeIngredient.entrySet())
+		for(HashMap.Entry<String, Integer> ingredient : this.listeIngredient.entrySet())
 		{
 			desc += ingredient.getKey() + " (" + ingredient.getValue() + ") ";
 		}
