@@ -13,6 +13,7 @@ import exceptions.AucuneBoissonDisponibleException;
 import exceptions.BoissonDoublonException;
 import exceptions.MaximumBoissonAtteintException;
 import exceptions.PrixInvalideException;
+import exceptions.StocksIngredientsInsuffisantsException;
 
 /**
  *
@@ -244,8 +245,9 @@ public class ManagerMachine {
      * @param nom
      * @param argent
      * @return La monnaie à rendre. Si aRendre < 0 alors pas assez d'argent ou 
+     * @throws StocksIngredientsInsuffisantsException 
      */
-    public Integer acheterBoisson(Boisson boisson, int argent, int quantiteSucre) {
+    public Integer acheterBoisson(Boisson boisson, int argent, int quantiteSucre) throws StocksIngredientsInsuffisantsException {
     	
     		int prix = boisson.getPrix();
     		HashMap<String, Integer> listeIngredientsBoisson = new HashMap<String, Integer>();
@@ -266,7 +268,7 @@ public class ManagerMachine {
     			}
     			else
     			{
-    				aRendre = null;
+    				throw new StocksIngredientsInsuffisantsException();
     			}
     		}
     	
