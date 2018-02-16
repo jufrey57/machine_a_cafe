@@ -193,11 +193,24 @@ public class Main
 					System.out.println("Veuillez insérer de la monnaie svp");
 					int argent = lireEntier();
 					
+					int quantiteSucre = 5;
+					
+					do {
+						System.out.println("Quelle quantité de sucre souhaitez-vous ? minimum - 0, maxmum - 10");
+						quantiteSucre = lireEntier();
+						
+						if(quantiteSucre < 0) {
+							System.out.println("Quantité de sucre incorrect\n");
+						} else if(quantiteSucre > 10){
+							System.out.println("Quantité de sucre trop élevé\n");
+						}
+					}while(quantiteSucre < 0 || quantiteSucre > 10);
+					
 					if (argent <= 0)
 						System.out.println("Error : Veuillez insérer de la monnaie");
 					else
 					{			
-						Integer reste = manager.acheterBoisson(boisson, argent);
+						Integer reste = manager.acheterBoisson(boisson, argent, quantiteSucre);
 						
 						if (reste == null)
 							System.out.println("Erreur lors de la préparation, veuillez récupérer votre monnaie " + argent);

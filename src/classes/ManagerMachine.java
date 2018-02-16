@@ -14,6 +14,7 @@ package classes;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Scanner;
 import java.util.Set;
 
 import exceptions.AucuneBoissonDisponibleException;
@@ -252,7 +253,7 @@ public class ManagerMachine implements java.io.Serializable {
      * @param argent
      * @return La monnaie à rendre. Si aRendre < 0 alors pas assez d'argent ou 
      */
-    public Integer acheterBoisson(Boisson boisson, int argent) {
+    public Integer acheterBoisson(Boisson boisson, int argent, int quantiteSucre) {
     	
     		int prix = boisson.getPrix();
     		HashMap<String, Integer> listeIngredientsBoisson = new HashMap<String, Integer>();
@@ -264,14 +265,17 @@ public class ManagerMachine implements java.io.Serializable {
     			if(this.vérifierAssezDIngredient(boisson)){
     				for(String ingredient : listeIngredientsBoisson.keySet())
         			{
-        				this.retirerIngredient(ingredient, listeIngredientsBoisson.get(ingredient));
+    					if(ingredient.equals("sucre")) {
+    						this.retirerIngredient(ingredient, quantiteSucre);
+    					} else {
+    						this.retirerIngredient(ingredient, listeIngredientsBoisson.get(ingredient));
+    					}
         			}	
     			}
     			else
     			{
     				aRendre = null;
     			}
-    			
     		}
     	
     		return aRendre;
