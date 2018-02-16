@@ -21,8 +21,9 @@ public class MachineACafe {
      * @throws MaximumBoissonAtteintException 
      * @throws BoissonDoublonException 
      */
-    public static void main(String[] args) throws BoissonDoublonException, MaximumBoissonAtteintException, PrixInvalideException {
-        ManagerMachine machine = Save.deserialize("sauvegarde");
+    public static void main(String[] args){
+        Object machine = null;
+        machine = Save.deserialize("./sauvegarde");
         
     }
     

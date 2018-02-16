@@ -108,7 +108,7 @@ public class Main
 			
 			menu += "0) Quitter";
 			
-			ajouterIngredient(boisson, menu, ingredients);
+			ajouterIngredientBoisson(boisson, menu, ingredients);
 		}
 		catch (BoissonDoublonException e)
 		{
@@ -127,7 +127,7 @@ public class Main
 		}
 	}
 	
-	private void ajouterIngredient(Boisson boisson, String menu, ArrayList<String> ingredients)
+	private void ajouterIngredientBoisson(Boisson boisson, String menu, ArrayList<String> ingredients)
 	{
 		int res = 1;
 		do {
@@ -143,9 +143,42 @@ public class Main
 		} while (res > -1);
 	}
 	
+	private void ajouterIngredient() {
+		boolean resAjoutIngredient = true;
+		String menu = "Quel ingrédient voulez modifier ?\n\n";
+		menu += "N\tnom\n\n";
+		ArrayList<String> ingredients = new ArrayList<String>();
+		
+		for(String ingredient : manager.getNomIngredients())
+			ingredients.add(ingredient);
+		
+		for (int i = 0; i < ingredients.size(); i++)
+		{
+			menu += (i+1) + ")\t" + ingredients.get(i) + "\n";
+		}
+		
+		menu += "0)\tQuitter";
+		
+		int res = 1;
+		do {
+			System.out.println(menu);
+			res = lireEntier() - 1;
+			if (res == -1)
+				continue;
+			System.out.println("Donner la quantité à ajouter pour cet ingrédient");
+			int quantite = lireEntier();
+			String ingredient = ingredients.get(res);
+			resAjoutIngredient = manager.modifierIngredient(ingredient, quantite);
+			if(resAjoutIngredient)
+				System.out.println("Ajout pour l'ingrédient " + ingredient + ": Succès");
+		} while (res <= -1 || !resAjoutIngredient);
+	}
+	
 	private String effectuerAction(int action)
 	{
 		String res = "";
+		ArrayList<Boisson> resBoissons;
+		
 		if (action > 0)
 		{
 			Boisson boisson;
@@ -199,16 +232,18 @@ public class Main
 					
 					// Vérifier le stock d'ingrédients
 				case 5:
-					res = this.manager.getListeIngredients();
+					res = manager.getListeIngredients();
 					System.out.println(res);
 					break;
 					
 					// Ajouter un ingrédient à une boisson
 				case 6:
+					ajouterIngredient();
 					break;
 					
 				case 7:
-					System.out.println(manager.getListeBoissons());
+					resBoissons = manager.getListeBoissons();
+					System.out.println(res);
 					break;
 					
 				case 8:

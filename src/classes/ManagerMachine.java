@@ -149,8 +149,10 @@ public class ManagerMachine implements java.io.Serializable {
      * @param nom
      * @param quantite
      */
-    public void ajoutIngredient(String nom, Integer quantite)
-    {   
+    public boolean ajoutIngredient(String nom, Integer quantite)
+    {
+    		boolean res = false;
+    	
         for ( String key : ingredients.keySet() ) 
         {
             if(nom.toLowerCase() != key.toLowerCase())
@@ -160,6 +162,7 @@ public class ManagerMachine implements java.io.Serializable {
                     if((quantite + this.getQuantiteIngredient(nom)) < MAXIMUM_INGREDIENT)
                     {
                         ingredients.put(nom.toLowerCase(), quantite); 
+                        res = true;
                     }
                     else 
                     {
@@ -176,6 +179,8 @@ public class ManagerMachine implements java.io.Serializable {
                 System.out.println("Ingrédient déjà présent.");
             }
         }
+        
+        return res;
     }
     
     /** getListeIngredients()
@@ -216,6 +221,8 @@ public class ManagerMachine implements java.io.Serializable {
 			quantite = this.getQuantiteIngredient(ingredient) + quantite;
 			this.ingredients.put(ingredient, quantite);
 			reponse = true;
+		} else {
+			System.out.println("Quantité overflow: maximum 200\n");
 		}
     	
     		return reponse;
