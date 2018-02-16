@@ -190,17 +190,12 @@ public class ManagerMachine {
     		listeIngredientsBoisson = boisson.getListeIngredient();
     		Integer aRendre =  argent - prix;
     		
-    		if(aRendre >= 0) 
+    		if(aRendre >= 0)
     		{
     			if(this.vérifierAssezDIngredient(boisson)){
+    				retirerIngredient("sucre", quantiteSucre);
     				for(String ingredient : listeIngredientsBoisson.keySet())
-        			{
-    					if(ingredient.equals("sucre")) {
-    						this.retirerIngredient(ingredient, quantiteSucre);
-    					} else {
-    						this.retirerIngredient(ingredient, listeIngredientsBoisson.get(ingredient));
-    					}
-        			}	
+					retirerIngredient(ingredient, listeIngredientsBoisson.get(ingredient));
     			}
     			else
     			{
@@ -242,12 +237,14 @@ public class ManagerMachine {
      * @param ingredient
      * @param quantite
      * @return Retourne true si ça c'est bien passé, sinon false
+     * @throws StocksIngredientsInsuffisantsException 
      */
-    private void retirerIngredient(String ingredient, int quantite)
+    private void retirerIngredient(String ingredient, int quantite) throws StocksIngredientsInsuffisantsException
     {
-    		
-		quantite = this.getQuantiteIngredient(ingredient) - quantite;
-		this.ingredients.put(ingredient, quantite);
+    		int stock = this.getQuantiteIngredient(ingredient) - quantite;
+    		if (stock< 0)
+    			throw new StocksIngredientsInsuffisantsException();
+		this.ingredients.put(ingredient, stock);
 		
     }
     

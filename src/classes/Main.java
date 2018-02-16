@@ -148,7 +148,8 @@ public class Main
 		ArrayList<String> ingredients = new ArrayList<String>();
 		
 		for(String ingredient : manager.getNomIngredients())
-			ingredients.add(ingredient);
+			if (!ingredient.equals("sucre"))
+				ingredients.add(ingredient);
 		
 		for (int i = 0; i < ingredients.size(); i++)
 		{
@@ -426,15 +427,12 @@ public class Main
 			//manager.ajoutIngredientBoisson("expresso", "sucre", 5);
 			//manager.ajoutIngredientBoisson("expresso", "cafe", 30);
 			
-			manager.ajoutIngredientBoisson("cafe long", "sucre", 5);
 			manager.ajoutIngredientBoisson("cafe long", "cafe", 10);
 			
 			manager.ajoutIngredientBoisson("chocolat", "chocolat", 10);
-			manager.ajoutIngredientBoisson("chocolat", "sucre", 5);
 			
 			manager.ajoutIngredientBoisson("cappuccino", "chocolat", 10);
 			manager.ajoutIngredientBoisson("cappuccino", "cafe", 10);
-			manager.ajoutIngredientBoisson("cappuccino", "sucre", 5);
 		} catch (BoissonDoublonException | MaximumBoissonAtteintException | PrixInvalideException e) {
 			e.printStackTrace();
 		}
