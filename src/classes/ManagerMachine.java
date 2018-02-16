@@ -25,14 +25,6 @@ public class ManagerMachine {
     private final int MAXIMUM_BOISSON = 5;
     private final int MAXIMUM_INGREDIENT = 200;
     
-    public ManagerMachine()
-    {
-        ingredients.put("cafe", 200);
-        ingredients.put("lait", 200);
-        ingredients.put("chocolat", 200);
-        ingredients.put("sucre", 200);
-    }
-    
     /**
      * Vérifie que le nom passé en paramètre est bien disponible
      * @param nom String
@@ -143,38 +135,22 @@ public class ManagerMachine {
      * @param nom
      * @param quantite
      */
-    public boolean ajoutIngredient(String nom, Integer quantite)
+    public void ajoutIngredient(String nom, Integer quantite)
     {
-    		boolean res = false;
-    	
-        for ( String key : ingredients.keySet() ) 
-        {
-            if(nom.toLowerCase() != key.toLowerCase())
-            {
-                if(quantite > 0)
-                {
-                    if((quantite + this.getQuantiteIngredient(nom)) < MAXIMUM_INGREDIENT)
-                    {
-                        ingredients.put(nom.toLowerCase(), quantite); 
-                        res = true;
-                    }
-                    else 
-                    {
-                        System.out.println("Quantité Overflow");
-                    }
-                }
-                else
-                {
-                    System.out.println("Quantité insuffisante");
-                }
-            }
-            else
-            {
-                System.out.println("Ingrédient déjà présent.");
-            }
-        }
-        
-        return res;
+    		int stock = quantite;
+	    	if (ingredients.containsKey(nom))
+	    		 stock += ingredients.get(nom);
+			
+		if(stock <= MAXIMUM_INGREDIENT)
+		{
+			System.out.println("Nouveau stock de l'ingrédient " + nom +" : "+ stock);
+		} 
+		else
+		{
+			System.out.println("Stock de \"" + nom + "\" plein. "+ (stock - MAXIMUM_INGREDIENT) + " n'ont pu être ajoutés");
+			stock = MAXIMUM_INGREDIENT;
+		}
+			ingredients.put(nom, stock);
     }
     
     /** getListeIngredients()
@@ -199,46 +175,6 @@ public class ManagerMachine {
     {
     		return ingredients.keySet();
     }
-    
-    /**
-     * modifierIngredient() ajoute un ingredient à la machine (on parle de la quantité)
-     * @param ingredient
-     * @param quantite
-     * @return
-     */
-    public boolean modifierIngredient(String ingredient, int quantite)
-    {
-    		boolean reponse = false;
-    		
-    		if(this.verifierQuantiteIngredient(ingredient, quantite))
-		{
-			quantite = this.getQuantiteIngredient(ingredient) + quantite;
-			this.ingredients.put(ingredient, quantite);
-			reponse = true;
-		} else {
-			System.out.println("Quantité overflow: maximum 200\n");
-		}
-    	
-    		return reponse;
-    }
-    
-    /**
-     * verifierQuantiteIngredient() Vérifie que la quantité ne dépasse pas 200
-     * @param ingredient
-     * @param quantite
-     * @return 
-     */
-    public boolean verifierQuantiteIngredient(String ingredient, int quantite)
-    {
-    		boolean reponse = false;
-    		if((this.getQuantiteIngredient(ingredient) + quantite) < 200)
-    		{
-    			reponse = true;
-    		}
-    		
-    		return reponse;
-    }
-    
     
     /**
      * acheterUneBoisson() L'achat de boisson inclut le fait de retirer la quantité d'ingrédient demandé par la boisson puis de rendre la monnaie

@@ -224,8 +224,7 @@ public class Main
 			System.out.println("Suppression annulée");
 	}
 	
-	private void ajouterIngredient() {
-		boolean resAjoutIngredient = true;
+	private void ajouterIngredient() throws EntreeInvalideException {
 		String menu = "Quel ingrédient voulez modifier ?\n\n";
 		menu += "N\tnom\n\n";
 		ArrayList<String> ingredients = new ArrayList<String>();
@@ -240,19 +239,17 @@ public class Main
 		
 		menu += "0)\tQuitter";
 		
-		int res = 1;
-		do {
-			System.out.println(menu);
-			res = lireEntier() - 1;
-			if (res == -1)
-				continue;
-			System.out.println("Donner la quantité à ajouter pour cet ingrédient");
-			int quantite = lireEntier();
-			String ingredient = ingredients.get(res);
-			resAjoutIngredient = manager.modifierIngredient(ingredient, quantite);
-			if(resAjoutIngredient)
-				System.out.println("Ajout pour l'ingrédient " + ingredient + ": Succès");
-		} while (res <= -1 || !resAjoutIngredient);
+		System.out.println(menu);
+		int res = lireEntier() - 1;
+
+		if (res < 0 || res > ingredients.size())
+			throw new EntreeInvalideException();
+		
+		System.out.println("Donner la quantité à ajouter pour cet ingrédient");
+		int quantite = lireEntier();
+
+		String ingredient = ingredients.get(res);
+		manager.ajoutIngredient(ingredient, quantite);
 	}
 	
 	private void acheterBoisson(Boisson boisson) throws EntreeInvalideException
@@ -269,7 +266,7 @@ public class Main
 		else
 		{
 			do {
-				System.out.println("Quelle quantité de sucre souhaitez-vous ? minimum - 0, maxmum - 10, défaut 5");
+				System.out.println("Quelle quantité de sucre souhaitez-vous ? minimum - 0, maxmum - 10");
 				quantiteSucre = lireEntier();
 				
 				if(quantiteSucre < 0) {
@@ -289,8 +286,7 @@ public class Main
 			}
 			catch (StocksIngredientsInsuffisantsException e)
 			{
-				System.out.println(e);
-				//System.out.println("Erreur lors de la préparation, veuillez récupérer votre monnaie " + argent);
+				System.out.println("Certains ingrédients nécessaires à cette boisson ne sont plus en stock, veuillez récupérer votre monnaie " + argent);
 			}
 		}
 	}
@@ -371,7 +367,7 @@ public class Main
 				}
 			} catch (EntreeInvalideException ex)
 			{
-				System.out.println("Retour au menu principal");
+				System.out.println("Retour au menu principal\n");
 			} catch (AucuneBoissonDisponibleException e1) {
 				e1.printStackTrace();
 			}
@@ -421,6 +417,11 @@ public class Main
 			manager.ajoutBoisson("cafe long", 3);
 			manager.ajoutBoisson("chocolat", 2);
 			manager.ajoutBoisson("cappuccino", 3);
+			
+	        manager.ajoutIngredient("cafe", 200);
+	        manager.ajoutIngredient("lait", 200);
+	        manager.ajoutIngredient("chocolat", 200);
+	        manager.ajoutIngredient("sucre", 5);
 			
 			//manager.ajoutIngredientBoisson("expresso", "sucre", 5);
 			//manager.ajoutIngredientBoisson("expresso", "cafe", 30);
