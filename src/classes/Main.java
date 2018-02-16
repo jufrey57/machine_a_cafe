@@ -8,22 +8,26 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.InputMismatchException;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Scanner;
 import java.util.Set;
 
+import exceptions.AucunIngredientDisponibleException;
 import exceptions.AucuneBoissonDisponibleException;
 import exceptions.BoissonDoublonException;
 import exceptions.EntreeInvalideException;
 import exceptions.MaximumBoissonAtteintException;
+import exceptions.MaximumIngredientsAtteintException;
 import exceptions.PrixInvalideException;
 
 public class Main
-{
-	/** ArrayList<String> Contient les lignes du menus **/
-	private static ArrayList<String> menus;
-	
+{	
 	/** ManagerMachine Contient les  **/
 	private ManagerMachine manager;
+	
+	private String menu;
 	
 	private Scanner sc;
 	// TODO: Faire un sytème de log
@@ -32,13 +36,11 @@ public class Main
 	
 	public Main()
 	{
-		menus = new ArrayList<String>();
 		manager = new ManagerMachine();
 		sc = new Scanner(System.in);
 		this.init();
-
-		// Accueil
-		menus.add("-- Menu prinicpal de la machine à café --\n"
+		
+		menu = "-- Menu prinicpal de la machine à café --\n"
 				+ "Quelle action souhaitez vous effectuer ?\n"
 				+ "1) Acheter une boisson\n"
 				+ "2) Modifier une boisson\n"
@@ -47,7 +49,7 @@ public class Main
 				+ "5) Vérifier le stock d'ingrédients\n"
 				+ "6) Ajouter un ingrédient\n"
 				+ "7) Lister les boissons disponibles\n"
-				+ "8) Quitter");
+				+ "8) Quitter";
 
 	}
 	
@@ -76,7 +78,7 @@ public class Main
 		return boisson;
 	}
 	
-	private void ajouterBoisson()
+	private void ajouterBoisson() throws EntreeInvalideException
 	{
 		// Donner un prix à la boisson
 		System.out.println("Donner un prix à votre boisson");
@@ -95,20 +97,7 @@ public class Main
 			else
 				System.out.println("Problème lors de l'ajout de la boisson");
 			
-			String menu = "N\tnom\n";
-			ArrayList<String> ingredients = new ArrayList<String>();
-			
-			for(String ingredient : manager.getNomIngredients())
-				ingredients.add(ingredient);
-			
-			for (int i = 0; i < ingredients.size(); i++)
-			{
-				menu += (i+1) + ") " + ingredients.get(i) + "\n";
-			}
-			
-			menu += "0) Quitter";
-			
-			ajouterIngredient(boisson, menu, ingredients);
+			modifierBoisson(boisson);
 		}
 		catch (BoissonDoublonException e)
 		{
@@ -127,20 +116,117 @@ public class Main
 		}
 	}
 	
-	private void ajouterIngredient(Boisson boisson, String menu, ArrayList<String> ingredients)
+	private void modifierBoisson(Boisson boisson) throws EntreeInvalideException
 	{
-		int res = 1;
-		do {
-			System.out.println(menu);
-			res = lireEntier() - 1;
-			if (res == -1)
-				continue;
-			System.out.println("Donner la quantité nécessaire pour cet ingrédient");
-			int quantite = lireEntier();
-			String ingredient = ingredients.get(res);
-			System.out.println("Ingrédient " + ingredient + " ajouté à " + boisson.getNom() + " au nombre de " + quantite);
-			manager.ajoutIngredientBoisson(boisson, ingredient, quantite);
-		} while (res > -1);
+		System.out.println("Comment souhaitez vous modifier cette boisson ? "+ boisson + "\n"
+				+ "1) Ajouter un ingrédient\n"
+				+ "2) Supprimer un ingrédient\n"
+				+ "0) Quitter");
+		
+		int res = lireEntier();
+		
+		try {	
+			switch (res)
+			{
+			case 1:
+				ajouterIngredient(boisson);
+				break;
+				
+			case 2:
+				supprimerIngredient(boisson);
+				break;
+				
+			default:
+				throw new EntreeInvalideException();
+			}
+		}
+		catch (AucunIngredientDisponibleException a)
+		{
+			System.out.println("Attention : Cette boisson ne possède aucun ingrédient");
+		}
+	}
+	
+	private void ajouterIngredient(Boisson boisson) throws EntreeInvalideException
+	{
+		// TODO: Extraire la génération du menu la fonction pour optimiser 
+		String menu = "N\tIngrédient\n";
+		ArrayList<String> ingredients = new ArrayList<String>();
+		
+		for(String ingredient : manager.getNomIngredients())
+			ingredients.add(ingredient);
+		
+		for (int i = 0; i < ingredients.size(); i++)
+		{
+			menu += (i+1) + ") " + ingredients.get(i) + "\n";
+		}
+		menu += "0) Quitter";
+		
+		System.out.println(menu);
+		int res = lireEntier() - 1;
+		
+		if (res < 0 || res > ingredients.size())
+			throw new EntreeInvalideException();
+		
+		System.out.println("Donner la quantité nécessaire pour cet ingrédient");
+		int quantite = lireEntier();
+		String ingredient = ingredients.get(res);
+		System.out.println("Ingrédient " + ingredient + " ajouté à " + boisson.getNom() + " au nombre de " + quantite);
+		manager.ajoutIngredientBoisson(boisson, ingredient, quantite);
+	}
+	
+	private void supprimerIngredient(Boisson boisson) throws EntreeInvalideException, AucunIngredientDisponibleException
+	{
+		String menu = "N\tIngrédient\n";
+		HashMap<String, Integer> ingredients = boisson.getListeIngredient();
+		
+		if (ingredients.size() <= 0)
+			throw new AucunIngredientDisponibleException();
+		
+		ArrayList<String> menuIngredients = new ArrayList<String>();
+		
+		Iterator<Entry<String, Integer>> it = ingredients.entrySet().iterator();
+		int i = 1;
+	    while (it.hasNext()) {
+	        Map.Entry<String, Integer> pair = (Map.Entry<String, Integer>)it.next();
+	        menuIngredients.add((String) pair.getKey());
+	        menu += i + ") "+ pair.getKey() + " : " + pair.getValue() + "\n";
+	        i++;
+	        //it.remove();
+	    }
+		
+		menu += "0) Quitter";
+		System.out.println(menu);
+		
+		int choix = lireEntier() - 1;
+		boolean valid = false;
+		String ingredient = "";
+		
+		if (choix == -1)
+			throw new EntreeInvalideException();
+		
+		while (!valid)
+		{
+			try {
+				ingredient = menuIngredients.get(choix);
+				valid = true;
+			}
+			catch (IndexOutOfBoundsException e)
+			{
+				System.out.println("Choix invalide, veuillez réessayer");	
+				sc.nextLine();
+			}
+		}
+		
+		System.out.println("Voulez-vous vraiment supprimer l'ingredient : \""+ ingredient +"\" de la boisson : "+ boisson + " ? (y/N)");
+		String res = sc.nextLine();
+		
+		if (res.toLowerCase().equals("y"))
+		{
+			boisson.supprimerIngredient(ingredient);
+			System.out.println("Ingrédient \""+ ingredient +"\" supprimé de la boisson : " + boisson);
+		}
+		else
+			System.out.println("Suppression annulée");
 	}
 	
 	private String effectuerAction(int action)
@@ -183,7 +269,8 @@ public class Main
 					
 					// Modifier une boisson	
 				case 2:
-					//manager.modifierBoisson(boisson);
+					boisson = choisirBoisson();
+					modifierBoisson(boisson);
 					break;
 					
 					// Supprimer une boisson
@@ -266,7 +353,7 @@ public class Main
 		int res = -1;
 		int argent = 0;
 		do {
-			System.out.println(menus.get(0));
+			System.out.println(menu);
 			res = lireEntier();
 			effectuerAction(res);
 		} 
@@ -281,8 +368,8 @@ public class Main
 			manager.ajoutBoisson("chocolat", 2);
 			manager.ajoutBoisson("cappuccino", 3);
 			
-			manager.ajoutIngredientBoisson("expresso", "sucre", 5);
-			manager.ajoutIngredientBoisson("expresso", "cafe", 30);
+			//manager.ajoutIngredientBoisson("expresso", "sucre", 5);
+			//manager.ajoutIngredientBoisson("expresso", "cafe", 30);
 			
 			manager.ajoutIngredientBoisson("cafe long", "sucre", 5);
 			manager.ajoutIngredientBoisson("cafe long", "cafe", 10);
@@ -299,7 +386,7 @@ public class Main
 	}
 	
 	public static void main(String[] args)
-	{	
+	{
 		Main main;
 		main = new Main();
 		main.run();

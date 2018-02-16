@@ -48,6 +48,11 @@ public class Boisson implements java.io.Serializable {
 		return reponse;	
 	}
 	
+	public void supprimerIngredient(String ingredient)
+	{
+		this.listeIngredient.remove(ingredient);
+	}
+	
 	/**
 	 * Retourne la liste des ingrédients ainsi que leur coût associé
 	 * @return
