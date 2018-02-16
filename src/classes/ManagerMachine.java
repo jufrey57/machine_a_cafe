@@ -14,6 +14,7 @@ package classes;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Scanner;
 import java.util.Set;
 
 import exceptions.AucuneBoissonDisponibleException;
@@ -149,8 +150,10 @@ public class ManagerMachine implements java.io.Serializable {
      * @param nom
      * @param quantite
      */
-    public void ajoutIngredient(String nom, Integer quantite)
-    {   
+    public boolean ajoutIngredient(String nom, Integer quantite)
+    {
+    		boolean res = false;
+    	
         for ( String key : ingredients.keySet() ) 
         {
             if(nom.toLowerCase() != key.toLowerCase())
@@ -160,6 +163,7 @@ public class ManagerMachine implements java.io.Serializable {
                     if((quantite + this.getQuantiteIngredient(nom)) < MAXIMUM_INGREDIENT)
                     {
                         ingredients.put(nom.toLowerCase(), quantite); 
+                        res = true;
                     }
                     else 
                     {
@@ -176,6 +180,8 @@ public class ManagerMachine implements java.io.Serializable {
                 System.out.println("Ingrédient déjà présent.");
             }
         }
+        
+        return res;
     }
     
     /** getListeIngredients()
@@ -216,6 +222,8 @@ public class ManagerMachine implements java.io.Serializable {
 			quantite = this.getQuantiteIngredient(ingredient) + quantite;
 			this.ingredients.put(ingredient, quantite);
 			reponse = true;
+		} else {
+			System.out.println("Quantité overflow: maximum 200\n");
 		}
     	
     		return reponse;
@@ -245,7 +253,7 @@ public class ManagerMachine implements java.io.Serializable {
      * @param argent
      * @return La monnaie à rendre. Si aRendre < 0 alors pas assez d'argent ou 
      */
-    public Integer acheterBoisson(Boisson boisson, int argent) {
+    public Integer acheterBoisson(Boisson boisson, int argent, int quantiteSucre) {
     	
     		int prix = boisson.getPrix();
     		HashMap<String, Integer> listeIngredientsBoisson = new HashMap<String, Integer>();
@@ -257,14 +265,17 @@ public class ManagerMachine implements java.io.Serializable {
     			if(this.vérifierAssezDIngredient(boisson)){
     				for(String ingredient : listeIngredientsBoisson.keySet())
         			{
-        				this.retirerIngredient(ingredient, listeIngredientsBoisson.get(ingredient));
+    					if(ingredient.equals("sucre")) {
+    						this.retirerIngredient(ingredient, quantiteSucre);
+    					} else {
+    						this.retirerIngredient(ingredient, listeIngredientsBoisson.get(ingredient));
+    					}
         			}	
     			}
     			else
     			{
     				aRendre = null;
     			}
-    			
     		}
     	
     		return aRendre;

@@ -19,7 +19,6 @@ import exceptions.AucuneBoissonDisponibleException;
 import exceptions.BoissonDoublonException;
 import exceptions.EntreeInvalideException;
 import exceptions.MaximumBoissonAtteintException;
-import exceptions.MaximumIngredientsAtteintException;
 import exceptions.PrixInvalideException;
 
 public class Main
@@ -229,9 +228,42 @@ public class Main
 			System.out.println("Suppression annulée");
 	}
 	
+	private void ajouterIngredient() {
+		boolean resAjoutIngredient = true;
+		String menu = "Quel ingrédient voulez modifier ?\n\n";
+		menu += "N\tnom\n\n";
+		ArrayList<String> ingredients = new ArrayList<String>();
+		
+		for(String ingredient : manager.getNomIngredients())
+			ingredients.add(ingredient);
+		
+		for (int i = 0; i < ingredients.size(); i++)
+		{
+			menu += (i+1) + ")\t" + ingredients.get(i) + "\n";
+		}
+		
+		menu += "0)\tQuitter";
+		
+		int res = 1;
+		do {
+			System.out.println(menu);
+			res = lireEntier() - 1;
+			if (res == -1)
+				continue;
+			System.out.println("Donner la quantité à ajouter pour cet ingrédient");
+			int quantite = lireEntier();
+			String ingredient = ingredients.get(res);
+			resAjoutIngredient = manager.modifierIngredient(ingredient, quantite);
+			if(resAjoutIngredient)
+				System.out.println("Ajout pour l'ingrédient " + ingredient + ": Succès");
+		} while (res <= -1 || !resAjoutIngredient);
+	}
+	
 	private String effectuerAction(int action)
 	{
 		String res = "";
+		ArrayList<Boisson> resBoissons;
+		
 		if (action > 0)
 		{
 			Boisson boisson;
@@ -246,11 +278,24 @@ public class Main
 					System.out.println("Veuillez insérer de la monnaie svp");
 					int argent = lireEntier();
 					
+					int quantiteSucre = 5;
+					
+					do {
+						System.out.println("Quelle quantité de sucre souhaitez-vous ? minimum - 0, maxmum - 10");
+						quantiteSucre = lireEntier();
+						
+						if(quantiteSucre < 0) {
+							System.out.println("Quantité de sucre incorrect\n");
+						} else if(quantiteSucre > 10){
+							System.out.println("Quantité de sucre trop élevé\n");
+						}
+					}while(quantiteSucre < 0 || quantiteSucre > 10);
+					
 					if (argent <= 0)
 						System.out.println("Error : Veuillez insérer de la monnaie");
 					else
 					{			
-						Integer reste = manager.acheterBoisson(boisson, argent);
+						Integer reste = manager.acheterBoisson(boisson, argent, quantiteSucre);
 						
 						if (reste == null)
 							System.out.println("Erreur lors de la préparation, veuillez récupérer votre monnaie " + argent);
@@ -286,16 +331,18 @@ public class Main
 					
 					// Vérifier le stock d'ingrédients
 				case 5:
-					res = this.manager.getListeIngredients();
+					res = manager.getListeIngredients();
 					System.out.println(res);
 					break;
 					
 					// Ajouter un ingrédient à une boisson
 				case 6:
+					ajouterIngredient();
 					break;
 					
 				case 7:
-					System.out.println(manager.getListeBoissons());
+					resBoissons = manager.getListeBoissons();
+					System.out.println(res);
 					break;
 					
 				case 8:
