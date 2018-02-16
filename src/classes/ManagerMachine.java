@@ -5,6 +5,8 @@ package classes;
  * and open the template in the editor.
  */
 
+import java.io.IOException;
+
 /** TODO
  * 5 boissons
  * +/- sucre
@@ -34,10 +36,43 @@ public class ManagerMachine implements java.io.Serializable {
     
     public ManagerMachine()
     {
-        ingredients.put("cafe", 200);
-        ingredients.put("lait", 200);
-        ingredients.put("chocolat", 200);
-        ingredients.put("sucre", 200);
+    		try {
+				if(Save.importationIngredients() != null)
+				{
+					ingredients = Save.importationIngredients();
+					boissons = Save.importationBoissons();
+				} else {
+					ingredients.put("cafe", 200);
+				    ingredients.put("lait", 200);
+				    ingredients.put("chocolat", 200);
+				    ingredients.put("sucre", 200);
+				    
+				    try {
+						ajoutBoisson("expresso", 4);
+						ajoutBoisson("cafe long", 3);
+						ajoutBoisson("chocolat", 2);
+						ajoutBoisson("cappuccino", 3);
+					} catch (BoissonDoublonException | MaximumBoissonAtteintException | PrixInvalideException e) {
+						e.printStackTrace();
+					}
+					
+					ajoutIngredientBoisson("expresso", "cafe", 30);
+					
+					ajoutIngredientBoisson("cafe long", "cafe", 10);
+					
+					ajoutIngredientBoisson("chocolat", "chocolat", 5);
+					ajoutIngredientBoisson("chocolat", "lait", 10);
+					
+					ajoutIngredientBoisson("cappuccino", "chocolat", 10);
+					ajoutIngredientBoisson("cappuccino", "cafe", 10);
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+    }
+    
+    public HashMap<String,Integer> getIngredients(){
+    		return this.ingredients;
     }
     
     /**

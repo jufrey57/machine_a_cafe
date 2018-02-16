@@ -260,8 +260,13 @@ public class Main
 					break;
 					
 				case 8:
-					System.out.println("Merci de votre visite");
-					System.exit(0);
+					try {
+						Save.exportation(manager);
+						System.out.println("Merci de votre visite");
+						System.exit(0);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
 					break;
 					
 					// Erreur, action inconnue
@@ -323,27 +328,11 @@ public class Main
 	
 	public void init()
 	{
-		try {
-			manager.ajoutBoisson("expresso", 4);
-			manager.ajoutBoisson("cafe long", 3);
-			manager.ajoutBoisson("chocolat", 2);
-			manager.ajoutBoisson("cappuccino", 3);
+		/*try {
 			
-			manager.ajoutIngredientBoisson("expresso", "sucre", 5);
-			manager.ajoutIngredientBoisson("expresso", "cafe", 30);
-			
-			manager.ajoutIngredientBoisson("cafe long", "sucre", 5);
-			manager.ajoutIngredientBoisson("cafe long", "cafe", 10);
-			
-			manager.ajoutIngredientBoisson("chocolat", "chocolat", 10);
-			manager.ajoutIngredientBoisson("chocolat", "sucre", 5);
-			
-			manager.ajoutIngredientBoisson("cappuccino", "chocolat", 10);
-			manager.ajoutIngredientBoisson("cappuccino", "cafe", 10);
-			manager.ajoutIngredientBoisson("cappuccino", "sucre", 5);
 		} catch (BoissonDoublonException | MaximumBoissonAtteintException | PrixInvalideException e) {
 			e.printStackTrace();
-		}
+		}*/
 	}
 	
 	public static void main(String[] args)
