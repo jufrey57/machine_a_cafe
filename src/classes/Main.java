@@ -352,8 +352,13 @@ public class Main
 					break;
 					
 				case 8:
-					System.out.println("Merci de votre visite");
-					System.exit(0);
+					try {
+						Save.exportation(manager);
+						System.out.println("Merci de votre visite");
+						System.exit(0);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
 					break;
 					
 				default:
@@ -413,6 +418,41 @@ public class Main
 	
 	public void init()
 	{
+		/*try {
+			if(Save.importationIngredients() != null)
+			{
+				ingredients = Save.importationIngredients();
+				boissons = Save.importationBoissons();
+			} else {
+				ingredients.put("cafe", 200);
+			    ingredients.put("lait", 200);
+			    ingredients.put("chocolat", 200);
+			    ingredients.put("sucre", 200);
+			    
+			    try {
+					ajoutBoisson("expresso", 4);
+					ajoutBoisson("cafe long", 3);
+					ajoutBoisson("chocolat", 2);
+					ajoutBoisson("cappuccino", 3);
+				} catch (BoissonDoublonException | MaximumBoissonAtteintException | PrixInvalideException e) {
+					e.printStackTrace();
+				}
+				
+				ajoutIngredientBoisson("expresso", "cafe", 30);
+				
+				ajoutIngredientBoisson("cafe long", "cafe", 10);
+				
+				ajoutIngredientBoisson("chocolat", "chocolat", 5);
+				ajoutIngredientBoisson("chocolat", "lait", 10);
+				
+				ajoutIngredientBoisson("cappuccino", "chocolat", 10);
+				ajoutIngredientBoisson("cappuccino", "cafe", 10);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+<<<<<<< HEAD
 		try {
 			manager.ajoutBoisson("expresso", 4);
 			manager.ajoutBoisson("cafe long", 3);
@@ -426,16 +466,20 @@ public class Main
 			
 			//manager.ajoutIngredientBoisson("expresso", "sucre", 5);
 			//manager.ajoutIngredientBoisson("expresso", "cafe", 30);
+>>>>>>> 73f965eb970cd1311c65b593be46ab8b2d5f61ad
 			
+<<<<<<< HEAD
 			manager.ajoutIngredientBoisson("cafe long", "cafe", 10);
 			
 			manager.ajoutIngredientBoisson("chocolat", "chocolat", 10);
 			
 			manager.ajoutIngredientBoisson("cappuccino", "chocolat", 10);
 			manager.ajoutIngredientBoisson("cappuccino", "cafe", 10);
+=======
+>>>>>>> c23d381833f91acb32a4abf7f363d928715c7a67
 		} catch (BoissonDoublonException | MaximumBoissonAtteintException | PrixInvalideException e) {
 			e.printStackTrace();
-		}
+		}*/
 	}
 	
 	public static void main(String[] args)

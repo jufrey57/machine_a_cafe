@@ -5,6 +5,15 @@ package classes;
  * and open the template in the editor.
  */
 
+import java.io.IOException;
+
+/** TODO
+ * 5 boissons
+ * +/- sucre
+ * persistance des ingrédients/boissons
+ */
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
@@ -24,6 +33,10 @@ public class ManagerMachine {
     private ArrayList<Boisson> boissons = new ArrayList<Boisson>();
     private final int MAXIMUM_BOISSON = 5;
     private final int MAXIMUM_INGREDIENT = 200;
+    
+    public HashMap<String,Integer> getIngredients(){
+    		return this.ingredients;
+    }
     
     /**
      * Vérifie que le nom passé en paramètre est bien disponible
